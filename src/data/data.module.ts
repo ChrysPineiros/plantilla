@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { UserRepository } from 'src/domain/repositories/user.repository';
 import { UserLoginUseCase } from 'src/domain/usecases/user-login.usecase';
 import { UserRegisterUseCase } from 'src/domain/usecases/user-register.usecase';
 import { GetUserProfileUseCase } from 'src/domain/usecases/get-user-profile.usecase';
 import { UserImplementationRepository } from './repositories/user-implementation.repository';
 import { UserImplementationRepositoryV2 } from './repositories/user-implementation.repositoryV2';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 
 const userLoginUseCaseFactory = 
@@ -38,11 +39,12 @@ export const getUserProfileUseCaseProvider = {
         userLoginUseCaseProvider,
         userRegisterUseCaseProvider,
         getUserProfileUseCaseProvider,
-        { provide: UserRepository, useClass: UserImplementationRepositoryV2 },
+        { provide: UserRepository, useClass: UserImplementationRepositoryV2 }
     ],
     imports: [
         CommonModule,
         HttpClientModule,
+        OAuthModule.forRoot()
     ],
 })
 export class DataModule { }
