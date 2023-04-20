@@ -1,0 +1,9 @@
+<input type="radio" name="rdo" id="yes" [(ngModel)]="defaultChoice" value="yes"
+(ngModelChange)="switched($event)" />
+<input type="radio" name="rdo" id="no" [(ngModel)]="defaultChoice" value="no"
+(ngModelChange)="switched($event)"/>
+<div class="switch">
+  <label for="yes">{{ textYes}}</label>
+  <label for="no">{{ textNo}}</label>
+  <span></span>
+</div>
