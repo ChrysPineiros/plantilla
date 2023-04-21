@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataModule } from 'src/data/data.module';
+import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
+import { Service } from './app.service';
 
 @NgModule({
   declarations: [
@@ -12,9 +14,13 @@ import { DataModule } from 'src/data/data.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    DataModule
+    DataModule,
+    DxDataGridModule,
+    DxButtonModule
   ],
-  providers: [],
+  providers: [
+    Service
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
