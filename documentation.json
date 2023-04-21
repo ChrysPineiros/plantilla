@@ -1,0 +1,2999 @@
+{
+    "pipes": [],
+    "interfaces": [
+        {
+            "name": "UseCase",
+            "id": "interface-UseCase-62439334c348cecc25cf245acf1ed8ecc6db0c32db7e1511c981bd349dc809e501f51f4864a6b516b8c2ea92bfaff10122ccac0c5718d9374e238d27b925f0a2",
+            "file": "src/base/use-case.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { Observable } from 'rxjs';\n\nexport interface UseCase<S, T> {\n    execute(params: S): Observable<T>;\n}",
+            "properties": [],
+            "indexSignatures": [],
+            "kind": 167,
+            "methods": [
+                {
+                    "name": "execute",
+                    "args": [
+                        {
+                            "name": "params",
+                            "type": "S",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<T>",
+                    "typeParameters": [],
+                    "line": 4,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "params",
+                            "type": "S",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "User",
+            "id": "interface-User-9c7e5f1bbbab702cb032307d130876cb68969b0cd4eedef32a0c8cad8081a54e5f8f577ed6ad4539c1b99a1d246cb34031d198c2ea8eba440e64e91b14f01fdc",
+            "file": "src/stories/User.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface User {}\n",
+            "properties": [],
+            "indexSignatures": [],
+            "methods": []
+        },
+        {
+            "name": "UserEntity",
+            "id": "interface-UserEntity-0a67c4be3e93bc1c7cbcaf4c3bf28737381e982219b18422e6bece069477fa1cfb0c5fa725ce715ee3b3e05e9ed9744926384af5c33dcbc63b90ff042d4812b2",
+            "file": "src/data/repositories/user/entities/user-entity.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface UserEntity {\n    id: string;\n    name: string;\n    userName: string;\n    phoneNumber: string;\n    userPicture: string;\n    activationStatus: boolean;\n}",
+            "properties": [
+                {
+                    "name": "activationStatus",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 7
+                },
+                {
+                    "name": "id",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 2
+                },
+                {
+                    "name": "name",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 3
+                },
+                {
+                    "name": "phoneNumber",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "userName",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                },
+                {
+                    "name": "userPicture",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        },
+        {
+            "name": "UserInfo",
+            "id": "interface-UserInfo-ffb985ecd7d5e18d61036cd7d678e428e0113a62e47ef061f25d9882495c8450cf72bed6bb7d48622635af9b7c72db8917d845a809f90c2ebdec15ede46a7d2b",
+            "file": "src/data/repositories/user-implementation.repositoryV2.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { Observable, Subject } from 'rxjs';\nimport { map } from 'rxjs/operators';\nimport { HttpClient } from '@angular/common/http';\nimport { UserEntity } from './user/entities/user-entity';\nimport { UserImplementationRepositoryMapper } from './user/mappers/user-repository.mapper';\nimport { UserRepository } from 'src/domain/repositories/user.repository';\nimport { UserModel } from 'src/domain/models/user.model';\nimport { Injectable } from '@angular/core';\nimport { OAuthService } from 'angular-oauth2-oidc';\nimport { authConfig } from 'src/core/oauth2/oauth2.config';\n\nexport interface UserInfo {\n    info: {\n        sub: string,\n        email: string,\n        name: string,\n        picture: string\n    }\n}\n\n@Injectable({\n    providedIn: 'root',\n})\nexport class UserImplementationRepositoryV2 extends UserRepository {\n    userMapper = new UserImplementationRepositoryMapper();\n    userProfileSubject = new Subject<UserInfo>();\n\n    constructor(private http: HttpClient, private readonly oAuthService: OAuthService) {\n        oAuthService.configure(authConfig);\n        oAuthService.loadDiscoveryDocument().then( () =>{\n           oAuthService.tryLoginImplicitFlow().then(() =>{\n                if(!oAuthService.hasValidAccessToken()){\n                    oAuthService.initLoginFlow()\n                } else {\n                    oAuthService.loadUserProfile().then( (userProfile) =>{\n                        //console.log(JSON.stringify(userProfile));\n\n                        this.userProfileSubject.next(userProfile as UserInfo);\n                    })\n                }\n           }) \n        });\n        super();\n    }\n\n    isLoggedIn(): boolean{\n        return this.oAuthService.hasValidAccessToken();\n    }\n\n    singOut(){\n        this.oAuthService.logOut();\n    }\n\n    login(params: {username: string, password: string}): Observable<UserModel> {\n        return this.http\n            .post<UserEntity>('https://azure.com/login', {params})\n            .pipe(map(this.userMapper.mapFrom));\n    }\n\n    register(params: {phoneNum: string, password: string}): Observable<UserModel> {\n       return this.http\n            .post<UserEntity>('https://example.com/register', {params})\n            .pipe(map(this.userMapper.mapFrom));\n    }\n\n    getUserProfile(): Observable<UserModel> {\n        return this.http.get<UserEntity>('https://example.com/user').pipe(\n            map(this.userMapper.mapFrom));\n    }\n}",
+            "properties": [
+                {
+                    "name": "info",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "literal type",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        },
+        {
+            "name": "UserModel",
+            "id": "interface-UserModel-b6bda27ca87e6db16f4fff254e859766aa5cb57ca5d835d100ceefb7bce5e08afff630c63922c4da2333101c3fe8fd5c374e4f3c009dae3986c1df462ab8bdc3",
+            "file": "src/domain/models/user.model.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface UserModel {\n    id: string;\n    fullName: string;\n    username: string;\n    email?: string;\n    phoneNum: string;\n    createdAt?: Date;\n    profilePicture: string;\n    activationStatus: boolean;\n}",
+            "properties": [
+                {
+                    "name": "activationStatus",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 9
+                },
+                {
+                    "name": "createdAt",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Date",
+                    "optional": true,
+                    "description": "",
+                    "line": 7
+                },
+                {
+                    "name": "email",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": true,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "fullName",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 3
+                },
+                {
+                    "name": "id",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 2
+                },
+                {
+                    "name": "phoneNum",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                },
+                {
+                    "name": "profilePicture",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 8
+                },
+                {
+                    "name": "username",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        }
+    ],
+    "injectables": [
+        {
+            "name": "UserImplementationRepository",
+            "id": "injectable-UserImplementationRepository-ed46c3073dbd1acbf648acb63de3f2952bd5acd08c76835b911124e940f71cdfda881f117e9ccb1c3b816bdd72c1ce53faf586d7f00e1d4aa9e030697161f0d2",
+            "file": "src/data/repositories/user-implementation.repository.ts",
+            "properties": [
+                {
+                    "name": "userMapper",
+                    "defaultValue": "new UserImplementationRepositoryMapper()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 14
+                }
+            ],
+            "methods": [
+                {
+                    "name": "getUserProfile",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "Observable<UserModel>",
+                    "typeParameters": [],
+                    "line": 30,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "inheritance": {
+                        "file": "UserRepository"
+                    }
+                },
+                {
+                    "name": "login",
+                    "args": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<UserModel>",
+                    "typeParameters": [],
+                    "line": 20,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ],
+                    "inheritance": {
+                        "file": "UserRepository"
+                    }
+                },
+                {
+                    "name": "register",
+                    "args": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<UserModel>",
+                    "typeParameters": [],
+                    "line": 25,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ],
+                    "inheritance": {
+                        "file": "UserRepository"
+                    }
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { Observable } from 'rxjs';\nimport { map } from 'rxjs/operators';\nimport { HttpClient } from '@angular/common/http';\nimport { UserEntity } from './user/entities/user-entity';\nimport { UserImplementationRepositoryMapper } from './user/mappers/user-repository.mapper';\nimport { UserRepository } from 'src/domain/repositories/user.repository';\nimport { UserModel } from 'src/domain/models/user.model';\nimport { Injectable } from '@angular/core';\n\n@Injectable({\n    providedIn: 'root',\n})\nexport class UserImplementationRepository extends UserRepository {\n    userMapper = new UserImplementationRepositoryMapper();\n\n    constructor(private http: HttpClient) {\n        super();\n    }\n\n    login(params: {username: string, password: string}): Observable<UserModel> {\n        return this.http\n            .post<UserEntity>('https://example.com/login', {params})\n            .pipe(map(this.userMapper.mapFrom));\n    }\n    register(params: {phoneNum: string, password: string}): Observable<UserModel> {\n       return this.http\n            .post<UserEntity>('https://example.com/register', {params})\n            .pipe(map((res) => { return this.userMapper.mapFrom(res)}));\n    }\n    getUserProfile(): Observable<UserModel>{\n        return this.http.get<UserEntity>('https://example.com/user').pipe(\n            map(this.userMapper.mapFrom));\n    }\n}",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "http",
+                        "type": "HttpClient",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 14,
+                "jsdoctags": [
+                    {
+                        "name": "http",
+                        "type": "HttpClient",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "extends": "UserRepository",
+            "type": "injectable"
+        },
+        {
+            "name": "UserImplementationRepositoryV2",
+            "id": "injectable-UserImplementationRepositoryV2-ffb985ecd7d5e18d61036cd7d678e428e0113a62e47ef061f25d9882495c8450cf72bed6bb7d48622635af9b7c72db8917d845a809f90c2ebdec15ede46a7d2b",
+            "file": "src/data/repositories/user-implementation.repositoryV2.ts",
+            "properties": [
+                {
+                    "name": "userMapper",
+                    "defaultValue": "new UserImplementationRepositoryMapper()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 25
+                },
+                {
+                    "name": "userProfileSubject",
+                    "defaultValue": "new Subject<UserInfo>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 26
+                }
+            ],
+            "methods": [
+                {
+                    "name": "getUserProfile",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "Observable<UserModel>",
+                    "typeParameters": [],
+                    "line": 66,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "inheritance": {
+                        "file": "UserRepository"
+                    }
+                },
+                {
+                    "name": "isLoggedIn",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "boolean",
+                    "typeParameters": [],
+                    "line": 46,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "login",
+                    "args": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<UserModel>",
+                    "typeParameters": [],
+                    "line": 54,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ],
+                    "inheritance": {
+                        "file": "UserRepository"
+                    }
+                },
+                {
+                    "name": "register",
+                    "args": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<UserModel>",
+                    "typeParameters": [],
+                    "line": 60,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ],
+                    "inheritance": {
+                        "file": "UserRepository"
+                    }
+                },
+                {
+                    "name": "singOut",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 50,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { Observable, Subject } from 'rxjs';\nimport { map } from 'rxjs/operators';\nimport { HttpClient } from '@angular/common/http';\nimport { UserEntity } from './user/entities/user-entity';\nimport { UserImplementationRepositoryMapper } from './user/mappers/user-repository.mapper';\nimport { UserRepository } from 'src/domain/repositories/user.repository';\nimport { UserModel } from 'src/domain/models/user.model';\nimport { Injectable } from '@angular/core';\nimport { OAuthService } from 'angular-oauth2-oidc';\nimport { authConfig } from 'src/core/oauth2/oauth2.config';\n\nexport interface UserInfo {\n    info: {\n        sub: string,\n        email: string,\n        name: string,\n        picture: string\n    }\n}\n\n@Injectable({\n    providedIn: 'root',\n})\nexport class UserImplementationRepositoryV2 extends UserRepository {\n    userMapper = new UserImplementationRepositoryMapper();\n    userProfileSubject = new Subject<UserInfo>();\n\n    constructor(private http: HttpClient, private readonly oAuthService: OAuthService) {\n        oAuthService.configure(authConfig);\n        oAuthService.loadDiscoveryDocument().then( () =>{\n           oAuthService.tryLoginImplicitFlow().then(() =>{\n                if(!oAuthService.hasValidAccessToken()){\n                    oAuthService.initLoginFlow()\n                } else {\n                    oAuthService.loadUserProfile().then( (userProfile) =>{\n                        //console.log(JSON.stringify(userProfile));\n\n                        this.userProfileSubject.next(userProfile as UserInfo);\n                    })\n                }\n           }) \n        });\n        super();\n    }\n\n    isLoggedIn(): boolean{\n        return this.oAuthService.hasValidAccessToken();\n    }\n\n    singOut(){\n        this.oAuthService.logOut();\n    }\n\n    login(params: {username: string, password: string}): Observable<UserModel> {\n        return this.http\n            .post<UserEntity>('https://azure.com/login', {params})\n            .pipe(map(this.userMapper.mapFrom));\n    }\n\n    register(params: {phoneNum: string, password: string}): Observable<UserModel> {\n       return this.http\n            .post<UserEntity>('https://example.com/register', {params})\n            .pipe(map(this.userMapper.mapFrom));\n    }\n\n    getUserProfile(): Observable<UserModel> {\n        return this.http.get<UserEntity>('https://example.com/user').pipe(\n            map(this.userMapper.mapFrom));\n    }\n}",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "http",
+                        "type": "HttpClient",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "oAuthService",
+                        "type": "OAuthService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 26,
+                "jsdoctags": [
+                    {
+                        "name": "http",
+                        "type": "HttpClient",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "oAuthService",
+                        "type": "OAuthService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "extends": "UserRepository",
+            "type": "injectable"
+        }
+    ],
+    "guards": [],
+    "interceptors": [],
+    "classes": [
+        {
+            "name": "GetUserProfileUseCase",
+            "id": "class-GetUserProfileUseCase-4cedd81f708755fb4d6f591271791c36078829ff5fc3d6ecd9d665fd844f23c401d67feee1183f0d0555467deb4431320ddcafa999ca8a8971d3fc512296d6d8",
+            "file": "src/domain/usecases/get-user-profile.usecase.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "class",
+            "sourceCode": "import { Observable } from 'rxjs';\nimport { UseCase } from 'src/base/use-case';\nimport { UserModel } from '../models/user.model';\nimport { UserRepository } from '../repositories/user.repository';\n\nexport class GetUserProfileUseCase implements UseCase<void, UserModel> {\n\n    constructor(private userRepository: UserRepository) { }\n\n    execute(): Observable<UserModel> {\n        return this.userRepository.getUserProfile();\n    }\n}",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "userRepository",
+                        "type": "UserRepository",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 6,
+                "jsdoctags": [
+                    {
+                        "name": "userRepository",
+                        "type": "UserRepository",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "properties": [],
+            "methods": [
+                {
+                    "name": "execute",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "Observable<UserModel>",
+                    "typeParameters": [],
+                    "line": 10,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "indexSignatures": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "hostBindings": [],
+            "hostListeners": [],
+            "implements": [
+                "UseCase"
+            ]
+        },
+        {
+            "name": "Mapper",
+            "id": "class-Mapper-cd199f85ff9ff0350e281d4e97ae33289a2bd30202028c62b2a141e91aad63df1ffbebb51b6698083c3423661608e66fdc4766ab2ece344df8304aaf01483f7f",
+            "file": "src/base/mapper.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "class",
+            "sourceCode": "export abstract class Mapper<I, O> {\n    abstract mapFrom(param: I): O;\n    abstract mapTo(param: O): I;\n}\n",
+            "properties": [],
+            "methods": [
+                {
+                    "name": "mapFrom",
+                    "args": [
+                        {
+                            "name": "param",
+                            "type": "I",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "O",
+                    "typeParameters": [],
+                    "line": 2,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        126
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "param",
+                            "type": "I",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "mapTo",
+                    "args": [
+                        {
+                            "name": "param",
+                            "type": "O",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "I",
+                    "typeParameters": [],
+                    "line": 3,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        126
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "param",
+                            "type": "O",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "indexSignatures": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "hostBindings": [],
+            "hostListeners": []
+        },
+        {
+            "name": "UserImplementationRepositoryMapper",
+            "id": "class-UserImplementationRepositoryMapper-d7aaf52e8525e7be204b6473f33226b3f3bc5086e7d7df0411deac0aaddb75a33d5d6bcce481ed401ea4d1ca7a07c5d051dbb541e6f327d2562220d6d9e5eb7b",
+            "file": "src/data/repositories/user/mappers/user-repository.mapper.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "class",
+            "sourceCode": "import { Mapper } from 'src/base/mapper';\nimport { UserModel } from 'src/domain/models/user.model';\nimport { UserEntity } from '../entities/user-entity';\n\n\nexport class UserImplementationRepositoryMapper extends Mapper<UserEntity, UserModel> {\n    mapFrom(param: UserEntity): UserModel {\n        return {\n            id: param.id,\n            fullName: param.name,\n            username: param.userName,\n            phoneNum: param.phoneNumber,\n            profilePicture: param.userPicture,\n            activationStatus: param.activationStatus\n        };\n    }\n    mapTo(param: UserModel): UserEntity {\n        return {\n            id: param.id,\n            name: param.fullName,\n            userName: param.username,\n            phoneNumber: param.phoneNum,\n            userPicture: param.profilePicture,\n            activationStatus: param.activationStatus\n        }\n    }\n}",
+            "properties": [],
+            "methods": [
+                {
+                    "name": "mapFrom",
+                    "args": [
+                        {
+                            "name": "param",
+                            "type": "UserEntity",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "UserModel",
+                    "typeParameters": [],
+                    "line": 7,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "param",
+                            "type": "UserEntity",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ],
+                    "inheritance": {
+                        "file": "Mapper"
+                    }
+                },
+                {
+                    "name": "mapTo",
+                    "args": [
+                        {
+                            "name": "param",
+                            "type": "UserModel",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "UserEntity",
+                    "typeParameters": [],
+                    "line": 17,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "param",
+                            "type": "UserModel",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ],
+                    "inheritance": {
+                        "file": "Mapper"
+                    }
+                }
+            ],
+            "indexSignatures": [],
+            "extends": "Mapper",
+            "inputsClass": [],
+            "outputsClass": [],
+            "hostBindings": [],
+            "hostListeners": []
+        },
+        {
+            "name": "UserLoginUseCase",
+            "id": "class-UserLoginUseCase-eeda53a3315e48b5c8520e543cb38fc28d7f51826340450f1763ad4eca0c8a1d20398eb51c30055f37bc36643dd74026460e7b0ec2d6c3fbdf42bcaeebbe9937",
+            "file": "src/domain/usecases/user-login.usecase.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "class",
+            "sourceCode": "import { Observable } from 'rxjs';\nimport { UseCase } from 'src/base/use-case';\nimport { UserModel } from '../models/user.model';\nimport { UserRepository } from '../repositories/user.repository';\n\nexport class UserLoginUseCase implements UseCase<{ username: string; password: string }, UserModel> {\n\n    constructor(private userRepository: UserRepository) { }\n\n    execute(\n       params: { username: string, password: string },\n    ): Observable<UserModel> {\n        return this.userRepository.login(params);\n    }\n}",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "userRepository",
+                        "type": "UserRepository",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 6,
+                "jsdoctags": [
+                    {
+                        "name": "userRepository",
+                        "type": "UserRepository",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "properties": [],
+            "methods": [
+                {
+                    "name": "execute",
+                    "args": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<UserModel>",
+                    "typeParameters": [],
+                    "line": 10,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "indexSignatures": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "hostBindings": [],
+            "hostListeners": [],
+            "implements": [
+                "UseCase"
+            ]
+        },
+        {
+            "name": "UserRegisterUseCase",
+            "id": "class-UserRegisterUseCase-ccb5077112073bc4c3027a2af2d5ed426e206a9127cf53dd8300021c8d2835ae56e10e4105212e23a67678b31cbcd046463849d3f54e90cfb0f4557240eebd27",
+            "file": "src/domain/usecases/user-register.usecase.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "class",
+            "sourceCode": "import { Observable } from 'rxjs';\nimport { UseCase } from 'src/base/use-case';\nimport { UserModel } from '../models/user.model';\nimport { UserRepository } from '../repositories/user.repository';\n\nexport class UserRegisterUseCase implements UseCase<{ phoneNum: string; password: string }, UserModel> {\n\n    constructor(private userRepository: UserRepository) { }\n\n    execute(\n        params: { phoneNum: string; password: string },\n    ): Observable<UserModel> {\n        return this.userRepository.register(params);\n    }\n}",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "userRepository",
+                        "type": "UserRepository",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 6,
+                "jsdoctags": [
+                    {
+                        "name": "userRepository",
+                        "type": "UserRepository",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "properties": [],
+            "methods": [
+                {
+                    "name": "execute",
+                    "args": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<UserModel>",
+                    "typeParameters": [],
+                    "line": 10,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "indexSignatures": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "hostBindings": [],
+            "hostListeners": [],
+            "implements": [
+                "UseCase"
+            ]
+        },
+        {
+            "name": "UserRepository",
+            "id": "class-UserRepository-9f3ab7997f0a40ff3a5436f5b1e7efb19fb6c05d0030dfe17fa19dd2f5f1804e57a5af9d405d255720c668138ffcbcc66a944426f2cda5073bace2d9b5e51039",
+            "file": "src/domain/repositories/user.repository.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "class",
+            "sourceCode": "import { Observable } from 'rxjs';\nimport { UserModel } from '../models/user.model';\n\nexport abstract class UserRepository {\n    abstract login(params: {username: string, password: string}): Observable<UserModel>;\n    abstract register(params: {phoneNum: string, password: string}): Observable<UserModel>;\n    abstract getUserProfile(): Observable<UserModel>;\n}",
+            "properties": [],
+            "methods": [
+                {
+                    "name": "getUserProfile",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "Observable<UserModel>",
+                    "typeParameters": [],
+                    "line": 7,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        126
+                    ]
+                },
+                {
+                    "name": "login",
+                    "args": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<UserModel>",
+                    "typeParameters": [],
+                    "line": 5,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        126
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "register",
+                    "args": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<UserModel>",
+                    "typeParameters": [],
+                    "line": 6,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        126
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "params",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "indexSignatures": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "hostBindings": [],
+            "hostListeners": []
+        }
+    ],
+    "directives": [],
+    "components": [
+        {
+            "name": "AppComponent",
+            "id": "component-AppComponent-acf0cf307aef064e514f7ae82e299e968b0a3a87790163dfef3b9ab2de3fa9e9087fd7a7e717afd41af3d905ecc8ab4325df94a0bbfabd697056c45c583d24c7",
+            "file": "src/presentation/app/app.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-root",
+            "styleUrls": [
+                "./app.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./app.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "title",
+                    "defaultValue": "'clean-architecture-angular'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "getUser",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 13,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { UserLoginUseCase } from 'src/domain/usecases/user-login.usecase';\n\n@Component({\n  selector: 'app-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.scss']\n})\nexport class AppComponent {\n  title = 'clean-architecture-angular';\n\n  constructor (private loginUC: UserLoginUseCase){}\n  getUser(){\n    this.loginUC.execute({ username:'', password:''}).subscribe( res => console.log(res));\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./app.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "loginUC",
+                        "type": "UserLoginUseCase",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 10,
+                "jsdoctags": [
+                    {
+                        "name": "loginUC",
+                        "type": "UserLoginUseCase",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "templateData": "\n<div class=\"row\">\n    <div class=\"col-6\">Cambio de Domicilio</div>\n    <div class=\"col-6\">\n        <button (click)=\"getUser()\">Probar</button>\n    </div>\n    <div class=\"col-12\">footer</div>\n</div>\n"
+        },
+        {
+            "name": "ButtonComponent",
+            "id": "component-ButtonComponent-a53fd738b978780d39fb5fcc9ae4cfe0088e57a1f6ce674862d57dab9192140bd1c05548a9910db0469a431142886e658ff2e761f15781b2ad430e58d64724d0",
+            "file": "src/stories/button.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "storybook-button",
+            "styleUrls": [
+                "./button.css"
+            ],
+            "styles": [],
+            "template": "<button   type=\"button\"\n   (click)=\"onClick.emit($event)\"\n   [ngClass]=\"classes\"\n   [ngStyle]=\"{ 'background-color': backgroundColor }\"\n >\n   {{ label }}\n </button>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "backgroundColor",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nWhat background color to use\n",
+                    "description": "<p>What background color to use</p>\n",
+                    "line": 28,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "label",
+                    "defaultValue": "'Button'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "pos": 786,
+                            "end": 799,
+                            "flags": 4227072,
+                            "modifierFlagsCache": 0,
+                            "transformFlags": 0,
+                            "kind": 325,
+                            "tagName": {
+                                "pos": 787,
+                                "end": 795,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "required"
+                            },
+                            "comment": ""
+                        }
+                    ],
+                    "rawdescription": "\n\nButton contents\n\n",
+                    "description": "<p>Button contents</p>\n",
+                    "line": 42,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "primary",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nIs this the principal call to action on the page?\n",
+                    "description": "<p>Is this the principal call to action on the page?</p>\n",
+                    "line": 22,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "size",
+                    "defaultValue": "'medium'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nHow large should the button be?\n",
+                    "description": "<p>How large should the button be?</p>\n",
+                    "line": 34,
+                    "type": "\"small\" | \"medium\" | \"large\"",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "onClick",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nOptional click handler\n",
+                    "description": "<p>Optional click handler</p>\n",
+                    "line": 48,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { Component, Input, Output, EventEmitter } from '@angular/core';\n\n@Component({\n  selector: 'storybook-button',\n  imports: [CommonModule],\n  template: ` <button\n    type=\"button\"\n    (click)=\"onClick.emit($event)\"\n    [ngClass]=\"classes\"\n    [ngStyle]=\"{ 'background-color': backgroundColor }\"\n  >\n    {{ label }}\n  </button>`,\n  styleUrls: ['./button.css'],\n})\nexport default class ButtonComponent {\n  /**\n   * Is this the principal call to action on the page?\n   */\n  @Input()\n  primary = false;\n\n  /**\n   * What background color to use\n   */\n  @Input()\n  backgroundColor?: string;\n\n  /**\n   * How large should the button be?\n   */\n  @Input()\n  size: 'small' | 'medium' | 'large' = 'medium';\n\n  /**\n   * Button contents\n   *\n   * @required\n   */\n  @Input()\n  label = 'Button';\n\n  /**\n   * Optional click handler\n   */\n  @Output()\n  onClick = new EventEmitter<Event>();\n\n  public get classes(): string[] {\n    const mode = this.primary ? 'storybook-button--primary' : 'storybook-button--secondary';\n\n    return ['storybook-button', `storybook-button--${this.size}`, mode];\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".storybook-button {\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n  font-weight: 700;\n  border: 0;\n  border-radius: 3em;\n  cursor: pointer;\n  display: inline-block;\n  line-height: 1;\n}\n.storybook-button--primary {\n  color: white;\n  background-color: #1ea7fd;\n}\n.storybook-button--secondary {\n  color: #333;\n  background-color: transparent;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;\n}\n.storybook-button--small {\n  font-size: 12px;\n  padding: 10px 16px;\n}\n.storybook-button--medium {\n  font-size: 14px;\n  padding: 11px 20px;\n}\n.storybook-button--large {\n  font-size: 16px;\n  padding: 12px 24px;\n}\n",
+                    "styleUrl": "./button.css"
+                }
+            ],
+            "stylesData": "",
+            "accessors": {
+                "classes": {
+                    "name": "classes",
+                    "getSignature": {
+                        "name": "classes",
+                        "type": "[]",
+                        "returnType": "string[]",
+                        "line": 50
+                    }
+                }
+            }
+        },
+        {
+            "name": "CardComponent",
+            "id": "component-CardComponent-a4df8ced816ba370cf4396e751698207c3b2d8160c3d0092dd6ded0f972e1c6cd597c60937ab12e2487330136bf5994ad4e5a6087541e60f7677edbc3c90b983",
+            "file": "src/design/components/atomic/card/card.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-card",
+            "styleUrls": [
+                "./card.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./card.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "avatar",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 9,
+                    "type": "string",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 12,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, Input, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-card',\n  templateUrl: './card.component.html',\n  styleUrls: ['./card.component.scss']\n})\nexport class CardComponent implements OnInit {\n  @Input() avatar: string = '';\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".card {\n    /* Add shadows to create the \"card\" effect */\n    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);\n    transition: 0.3s;\n    width: 230px;\n    margin-bottom: 1rem;\n  }\n  \n  /* On mouse-over, add a deeper shadow */\n  .card:hover {\n    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);\n  }\n  \n  /* Add some padding inside the card container */\n  .container {\n    padding: 2px 16px;\n  }",
+                    "styleUrl": "./card.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 9
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"card\">\n    <img [src]=\"avatar\" alt=\"Avatar\" style=\"width:100%\">\n  <div class=\"container\">\n    <ng-content></ng-content>\n  </div>\n    \n</div>"
+        },
+        {
+            "name": "HeaderComponent",
+            "id": "component-HeaderComponent-a71f246366d5d3dd2485d220bc2c384ceb3f056eb50faded8ff9e4a6404ca4a28c23117da4b98825de8da482bc2ba3b9abeab416745b32d1a89f68595d2dc939",
+            "file": "src/stories/header.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "storybook-header",
+            "styleUrls": [
+                "./header.css"
+            ],
+            "styles": [],
+            "template": "<header>    <div class=\"wrapper\">\n      <div>\n        <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\">\n          <g fill=\"none\" fillRule=\"evenodd\">\n            <path\n              d=\"M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z\"\n              fill=\"#FFF\"\n            />\n            <path\n              d=\"M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z\"\n              fill=\"#555AB9\"\n            />\n            <path\n              d=\"M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z\"\n              fill=\"#91BAF8\"\n            />\n          </g>\n        </svg>\n        <h1>Acme</h1>\n      </div>\n      <div>\n        <div *ngIf=\"user\">\n          <span class=\"welcome\">\n            Welcome, <b>{{ user.name }}</b\n            >!\n          </span>\n          <storybook-button\n            *ngIf=\"user\"\n            size=\"small\"\n            (onClick)=\"onLogout.emit($event)\"\n            label=\"Log out\"\n          ></storybook-button>\n        </div>\n        <div *ngIf=\"!user\">\n          <storybook-button\n            *ngIf=\"!user\"\n            size=\"small\"\n            class=\"margin-left\"\n            (onClick)=\"onLogin.emit($event)\"\n            label=\"Log in\"\n          ></storybook-button>\n          <storybook-button\n            *ngIf=\"!user\"\n            primary\n            size=\"small\"\n            primary=\"true\"\n            class=\"margin-left\"\n            (onClick)=\"onCreateAccount.emit($event)\"\n            label=\"Sign up\"\n          ></storybook-button>\n        </div>\n      </div>\n    </div>\n  </header>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "user",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 65,
+                    "type": "User | null",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "onCreateAccount",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 74,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "onLogin",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 68,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "onLogout",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 71,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, Input, Output, EventEmitter } from '@angular/core';\nimport type { User } from './User';\n\n@Component({\n  selector: 'storybook-header',\n  template: `<header>\n    <div class=\"wrapper\">\n      <div>\n        <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\">\n          <g fill=\"none\" fillRule=\"evenodd\">\n            <path\n              d=\"M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z\"\n              fill=\"#FFF\"\n            />\n            <path\n              d=\"M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z\"\n              fill=\"#555AB9\"\n            />\n            <path\n              d=\"M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z\"\n              fill=\"#91BAF8\"\n            />\n          </g>\n        </svg>\n        <h1>Acme</h1>\n      </div>\n      <div>\n        <div *ngIf=\"user\">\n          <span class=\"welcome\">\n            Welcome, <b>{{ user.name }}</b\n            >!\n          </span>\n          <storybook-button\n            *ngIf=\"user\"\n            size=\"small\"\n            (onClick)=\"onLogout.emit($event)\"\n            label=\"Log out\"\n          ></storybook-button>\n        </div>\n        <div *ngIf=\"!user\">\n          <storybook-button\n            *ngIf=\"!user\"\n            size=\"small\"\n            class=\"margin-left\"\n            (onClick)=\"onLogin.emit($event)\"\n            label=\"Log in\"\n          ></storybook-button>\n          <storybook-button\n            *ngIf=\"!user\"\n            primary\n            size=\"small\"\n            primary=\"true\"\n            class=\"margin-left\"\n            (onClick)=\"onCreateAccount.emit($event)\"\n            label=\"Sign up\"\n          ></storybook-button>\n        </div>\n      </div>\n    </div>\n  </header>`,\n  styleUrls: ['./header.css'],\n})\nexport default class HeaderComponent {\n  @Input()\n  user: User | null = null;\n\n  @Output()\n  onLogin = new EventEmitter<Event>();\n\n  @Output()\n  onLogout = new EventEmitter<Event>();\n\n  @Output()\n  onCreateAccount = new EventEmitter<Event>();\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".wrapper {\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  padding: 15px 20px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n\nsvg {\n  display: inline-block;\n  vertical-align: top;\n}\n\nh1 {\n  font-weight: 700;\n  font-size: 20px;\n  line-height: 1;\n  margin: 6px 0 6px 10px;\n  display: inline-block;\n  vertical-align: top;\n}\n\nbutton + button {\n  margin-left: 10px;\n}\n\n.welcome {\n  color: #333;\n  font-size: 14px;\n  margin-right: 10px;\n}\n",
+                    "styleUrl": "./header.css"
+                }
+            ],
+            "stylesData": ""
+        },
+        {
+            "name": "NavbarComponent",
+            "id": "component-NavbarComponent-ba0b008325af088965b93d7e762e5b126f8f5ee7afc84fefb55dcba5cf68d1923f3fb637b5f47a6c2cc44e7311fb3ccce26f75de2c785ecc08c9e9fc3086291c",
+            "file": "src/design/components/atomic/navbar/navbar.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-navbar",
+            "styleUrls": [
+                "./navbar.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./navbar.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 12,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-navbar',\n  templateUrl: './navbar.component.html',\n  styleUrls: ['./navbar.component.scss']\n})\nexport class NavbarComponent implements OnInit {\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "/* Add a black background color to the top navigation */\n.topnav {\n    background-color: #333;\n    overflow: hidden;\n  }\n  \n  /* Style the links inside the navigation bar */\n  .topnav a {\n    float: left;\n    color: #f2f2f2;\n    text-align: center;\n    padding: 14px 16px;\n    text-decoration: none;\n    font-size: 17px;\n  }\n  \n  /* Change the color of links on hover */\n  .topnav a:hover {\n    background-color: #ddd;\n    color: black;\n  }\n  \n  /* Add a color to the active/current link */\n  .topnav a.active {\n    background-color: #04AA6D;\n    color: white;\n  }",
+                    "styleUrl": "./navbar.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 8
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"topnav\">\n    <a class=\"active\" href=\"#home\">Home</a>\n    <a href=\"#news\">News</a>\n    <a href=\"#contact\">Contact</a>\n    <a href=\"#about\">About</a>\n  </div>"
+        },
+        {
+            "name": "PageComponent",
+            "id": "component-PageComponent-f5d2fd9ba0ee70c24f514ef21ebdae50beb2e2f42594802a96cdbeb02a59371897162b6be17fcb45cdc0d237d3e4bee611d1ad1d446a54e0699ba35b48991b87",
+            "file": "src/stories/page.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "storybook-page",
+            "styleUrls": [
+                "./page.css"
+            ],
+            "styles": [],
+            "template": "<article>    <storybook-header\n      [user]=\"user\"\n      (onLogout)=\"doLogout()\"\n      (onLogin)=\"doLogin()\"\n      (onCreateAccount)=\"doCreateAccount()\"\n    ></storybook-header>\n    <section>\n      <h2>Pages in Storybook</h2>\n      <p>\n        We recommend building UIs with a\n        <a href=\"https://componentdriven.org\" target=\"_blank\" rel=\"noopener noreferrer\">\n          <strong>component-driven</strong>\n        </a>\n        process starting with atomic components and ending with pages.\n      </p>\n      <p>\n        Render pages with mock data. This makes it easy to build and review page states without\n        needing to navigate to them in your app. Here are some handy patterns for managing page data\n        in Storybook:\n      </p>\n      <ul>\n        <li>\n          Use a higher-level connected component. Storybook helps you compose such data from the\n          \"args\" of child component stories\n        </li>\n        <li>\n          Assemble data in the page component from your services. You can mock these services out\n          using Storybook.\n        </li>\n      </ul>\n      <p>\n        Get a guided tutorial on component-driven development at\n        <a href=\"https://storybook.js.org/tutorials/\" target=\"_blank\" rel=\"noopener noreferrer\">\n          Storybook tutorials\n        </a>\n        . Read more in the\n        <a href=\"https://storybook.js.org/docs\" target=\"_blank\" rel=\"noopener noreferrer\"> docs </a>\n        .\n      </p>\n      <div class=\"tip-wrapper\">\n        <span class=\"tip\">Tip</span> Adjust the width of the canvas with the\n        <svg width=\"10\" height=\"10\" viewBox=\"0 0 12 12\" xmlns=\"http://www.w3.org/2000/svg\">\n          <g fill=\"none\" fillRule=\"evenodd\">\n            <path\n              d=\"M1.5 5.2h4.8c.3 0 .5.2.5.4v5.1c-.1.2-.3.3-.4.3H1.4a.5.5 0 01-.5-.4V5.7c0-.3.2-.5.5-.5zm0-2.1h6.9c.3 0 .5.2.5.4v7a.5.5 0 01-1 0V4H1.5a.5.5 0 010-1zm0-2.1h9c.3 0 .5.2.5.4v9.1a.5.5 0 01-1 0V2H1.5a.5.5 0 010-1zm4.3 5.2H2V10h3.8V6.2z\"\n              id=\"a\"\n              fill=\"#999\"\n            />\n          </g>\n        </svg>\n        Viewports addon in the toolbar\n      </div>\n    </section>\n  </article>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "user",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "User | null",
+                    "optional": false,
+                    "description": "",
+                    "line": 64
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "doCreateAccount",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 74,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "doLogin",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 70,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "doLogout",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 66,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\nimport type { User } from './User';\n\n@Component({\n  selector: 'storybook-page',\n  template: `<article>\n    <storybook-header\n      [user]=\"user\"\n      (onLogout)=\"doLogout()\"\n      (onLogin)=\"doLogin()\"\n      (onCreateAccount)=\"doCreateAccount()\"\n    ></storybook-header>\n    <section>\n      <h2>Pages in Storybook</h2>\n      <p>\n        We recommend building UIs with a\n        <a href=\"https://componentdriven.org\" target=\"_blank\" rel=\"noopener noreferrer\">\n          <strong>component-driven</strong>\n        </a>\n        process starting with atomic components and ending with pages.\n      </p>\n      <p>\n        Render pages with mock data. This makes it easy to build and review page states without\n        needing to navigate to them in your app. Here are some handy patterns for managing page data\n        in Storybook:\n      </p>\n      <ul>\n        <li>\n          Use a higher-level connected component. Storybook helps you compose such data from the\n          \"args\" of child component stories\n        </li>\n        <li>\n          Assemble data in the page component from your services. You can mock these services out\n          using Storybook.\n        </li>\n      </ul>\n      <p>\n        Get a guided tutorial on component-driven development at\n        <a href=\"https://storybook.js.org/tutorials/\" target=\"_blank\" rel=\"noopener noreferrer\">\n          Storybook tutorials\n        </a>\n        . Read more in the\n        <a href=\"https://storybook.js.org/docs\" target=\"_blank\" rel=\"noopener noreferrer\"> docs </a>\n        .\n      </p>\n      <div class=\"tip-wrapper\">\n        <span class=\"tip\">Tip</span> Adjust the width of the canvas with the\n        <svg width=\"10\" height=\"10\" viewBox=\"0 0 12 12\" xmlns=\"http://www.w3.org/2000/svg\">\n          <g fill=\"none\" fillRule=\"evenodd\">\n            <path\n              d=\"M1.5 5.2h4.8c.3 0 .5.2.5.4v5.1c-.1.2-.3.3-.4.3H1.4a.5.5 0 01-.5-.4V5.7c0-.3.2-.5.5-.5zm0-2.1h6.9c.3 0 .5.2.5.4v7a.5.5 0 01-1 0V4H1.5a.5.5 0 010-1zm0-2.1h9c.3 0 .5.2.5.4v9.1a.5.5 0 01-1 0V2H1.5a.5.5 0 010-1zm4.3 5.2H2V10h3.8V6.2z\"\n              id=\"a\"\n              fill=\"#999\"\n            />\n          </g>\n        </svg>\n        Viewports addon in the toolbar\n      </div>\n    </section>\n  </article>`,\n  styleUrls: ['./page.css'],\n})\nexport default class PageComponent {\n  user: User | null = null;\n\n  doLogout() {\n    this.user = null;\n  }\n\n  doLogin() {\n    this.user = { name: 'Jane Doe' };\n  }\n\n  doCreateAccount() {\n    this.user = { name: 'Jane Doe' };\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "section {\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n  font-size: 14px;\n  line-height: 24px;\n  padding: 48px 20px;\n  margin: 0 auto;\n  max-width: 600px;\n  color: #333;\n}\n\nsection h2 {\n  font-weight: 700;\n  font-size: 32px;\n  line-height: 1;\n  margin: 0 0 4px;\n  display: inline-block;\n  vertical-align: top;\n}\n\nsection p {\n  margin: 1em 0;\n}\n\nsection a {\n  text-decoration: none;\n  color: #1ea7fd;\n}\n\nsection ul {\n  padding-left: 30px;\n  margin: 1em 0;\n}\n\nsection li {\n  margin-bottom: 8px;\n}\n\nsection .tip {\n  display: inline-block;\n  border-radius: 1em;\n  font-size: 11px;\n  line-height: 12px;\n  font-weight: 700;\n  background: #e7fdd8;\n  color: #66bf3c;\n  padding: 4px 12px;\n  margin-right: 10px;\n  vertical-align: top;\n}\n\nsection .tip-wrapper {\n  font-size: 13px;\n  line-height: 20px;\n  margin-top: 40px;\n  margin-bottom: 40px;\n}\n\nsection .tip-wrapper svg {\n  display: inline-block;\n  height: 12px;\n  width: 12px;\n  margin-right: 4px;\n  vertical-align: top;\n  margin-top: 3px;\n}\n\nsection .tip-wrapper svg path {\n  fill: #1ea7fd;\n}\n",
+                    "styleUrl": "./page.css"
+                }
+            ],
+            "stylesData": ""
+        },
+        {
+            "name": "SpinnerComponent",
+            "id": "component-SpinnerComponent-57a921be723f3b4bf5b76c0d75dace94d289e16a4efe9a4fe43554305fde3350832e7842c612203ecc0a49293cf1dde9224b766bf4f0f64a09373fc091418ef7",
+            "file": "src/design/components/atomic/spinner/spinner.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-spinner",
+            "styleUrls": [
+                "./spinner.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./spinner.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 12,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-spinner',\n  templateUrl: './spinner.component.html',\n  styleUrls: ['./spinner.component.scss']\n})\nexport class SpinnerComponent implements OnInit {\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".a-loading {\n    &-android {\n        animation: rotate 2s linear infinite;\n        transform-origin: center center;\n        >circle {\n            display: inline-block;\n            animation: dash 1500ms ease-in-out infinite;\n            stroke-linecap: round; // 端点是圆形\n            color: #da272c;\n        }\n      \n        @keyframes rotate {\n            100% {\n                transform: rotate(360deg);\n            }\n        }\n      \n        @keyframes dash {\n            0% {\n                stroke-dasharray: 1, 200;\n            }\n\n            50% {\n                stroke-dasharray: 100, 200;\n                stroke-dashoffset: -45;\n            }\n\n            100% {\n                stroke-dasharray: 100, 200;\n                stroke-dashoffset: -124;\n            }\n        }\n    }\n}\n\n.center {\n  text-align: center;\n  line-height: 400px;\n  height: 400px;\n  width: 100%;\n}",
+                    "styleUrl": "./spinner.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 8
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"center\">\n    <svg width=\"100\" height=\"100\" viewBox=\"0 0 50 50\" class=\"a-loading-android\">\n    <circle cx=\"25\" cy=\"25\" r=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"5\"></circle>\n</svg>\n    <div>"
+        },
+        {
+            "name": "SwitchComponent",
+            "id": "component-SwitchComponent-79c4b5355f547bc1be0fc5aaf0ff08ff83480f160fe0fa113a5d53b17f3134bc4b5c1ed45c8f9d0dfdb32ff5b685c0dc2a750cab4d093e69b3470facb9327ec7",
+            "file": "src/design/components/atomic/switch/switch.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-switch",
+            "styleUrls": [
+                "./switch.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./switch.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "textNo",
+                    "defaultValue": "'no'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 10,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "textYes",
+                    "defaultValue": "'yes'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 9,
+                    "type": "string",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "onChange",
+                    "defaultValue": "new EventEmitter<string>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 11,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "choice",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
+                },
+                {
+                    "name": "defaultChoice",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 12
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 16,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "switched",
+                    "args": [
+                        {
+                            "name": "value",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 19,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "value",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';\n\n@Component({\n  selector: 'app-switch',\n  templateUrl: './switch.component.html',\n  styleUrls: ['./switch.component.scss']\n})\nexport class SwitchComponent implements OnInit {\n  @Input() textYes: string = 'yes';\n  @Input() textNo: string = 'no';\n  @Output() onChange = new EventEmitter<string>();\n  defaultChoice: boolean = true;\n  choice: boolean = true;\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n  switched(value: any) {\n    this.onChange.emit(value);\n  }\n\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "body {\n\tfont-family: sans-serif;\n\tfont-weight: 800;\n}\n.switch {\n\tposition: absolute;\n\ttop: 50%;\n\tleft: 50%;\n\twidth: 150px;\n\theight: 50px;\n\ttext-align: center;\n\tmargin: -30px 0 0 -75px;\n\tbackground: #4cd964;\n\ttransition: all 0.2s ease;\n\tborder-radius: 25px;\n\tspan {\n\t\tposition: absolute;\n\t\twidth: 20px;\n\t\theight: 4px;\n\t\ttop: 50%;\n\t\tleft: 50%;\n\t\tmargin: -2px 0px 0px -4px;\n\t\tbackground: #fff;\n\t\tdisplay: block;\n\t\ttransform: rotate(-45deg);\n\t\ttransition: all 0.2s ease;\n\t\tborder-radius: 2px;\n\t\t&:after {\n\t\t\tcontent: \"\";\n\t\t\tdisplay: block;\n\t\t\tposition: absolute;\n\t\t\twidth: 4px;\n\t\t\theight: 12px;\n\t\t\tmargin-top: -8px;\n\t\t\tbackground: #fff;\n\t\t\ttransition: all 0.2s ease;\n\t\t\tborder-radius: 2px;\n\t\t}\n\t}\n\tlabel {\n\t\tcursor: pointer;\n\t\tcolor: rgba(0,0,0,0.2);\n\t\twidth: 60px;\n\t\tline-height: 50px;\n\t\ttransition: all 0.2s ease;\n\t}\n}\ninput[type=radio] {\n\tdisplay: none;\n}\nlabel[for=yes] {\n\tposition: absolute;\n\tleft: 0px;\n\theight: 20px;\n}\nlabel[for=no] {\n\tposition: absolute;\n\tright: 0px;\n}\n#no {\n\t&:checked {\n\t\t& ~ .switch {\n\t\t\tbackground: #ff3b30;\n\t\t\tspan {\n\t\t\t\tbackground: #fff;\n\t\t\t\tmargin-left: -8px;\n\t\t\t\t&:after {\n\t\t\t\t\tbackground: #fff;\n\t\t\t\t\theight: 20px;\n\t\t\t\t\tmargin-top: -8px;\n\t\t\t\t\tmargin-left: 8px;\n\t\t\t\t}\n\t\t\t}\n\t\t\tlabel[for=no] {\n\t\t\t\tcolor: #fff;\n\t\t\t}\n\t\t}\n\t}\n}\n#yes {\n\t&:checked {\n\t\t& ~ .switch {\n\t\t\tlabel[for=yes] {\n\t\t\t\tcolor: #fff;\n\t\t\t}\n\t\t}\n\t}\n}\n",
+                    "styleUrl": "./switch.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 13
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<input type=\"radio\" name=\"rdo\" id=\"yes\" [(ngModel)]=\"defaultChoice\" value=\"yes\"\n(ngModelChange)=\"switched($event)\" />\n<input type=\"radio\" name=\"rdo\" id=\"no\" [(ngModel)]=\"defaultChoice\" value=\"no\"\n(ngModelChange)=\"switched($event)\"/>\n<div class=\"switch\">\n  <label for=\"yes\">{{ textYes}}</label>\n  <label for=\"no\">{{ textNo}}</label>\n  <span></span>\n</div>\n"
+        }
+    ],
+    "modules": [
+        {
+            "name": "AppModule",
+            "id": "module-AppModule-697ed2acd3cdeceb36a4f8fd9de4f5c3891d9e138c050da1bac908b838fe0d4d4987b97376c53258f5c24180acbafcf153d476e8acc5af85616bd66b97016df1",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/presentation/app/app.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { DataModule } from 'src/data/data.module';\n\n@NgModule({\n  declarations: [\n    AppComponent\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    DataModule\n  ],\n  providers: [],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "AppComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": [
+                        {
+                            "name": "AppRoutingModule"
+                        },
+                        {
+                            "name": "DataModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": [
+                        {
+                            "name": "AppComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "AppRoutingModule",
+            "id": "module-AppRoutingModule-78922b3ae99d2c5249b333980bd5afde1b120b2cc6fedfd41b8b2cc90f279797cb4b22e183bf7e1d1dfab8c6100e77e7812c110234d81f866f544f28a3e18b15",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/presentation/app/app-routing.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { RouterModule, Routes } from '@angular/router';\n\nconst routes: Routes = [];\n\n@NgModule({\n  imports: [RouterModule.forRoot(routes)],\n  exports: [RouterModule]\n})\nexport class AppRoutingModule { }\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": []
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "CardModule",
+            "id": "module-CardModule-87a0de3ad242699f3b96a4caffc8eca4866518e1624cac5fcfa2e6eb8f5e1ec995dcecda9bfa6bfe27f45a98d1f70e3e638e25d4e4519e4995357b211f72af1a",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/design/components/atomic/card/card.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { CardComponent } from './card.component';\n\n\n\n@NgModule({\n  declarations: [CardComponent],\n  imports: [\n    CommonModule\n  ],\n  exports: [CardComponent]\n})\nexport class CardModule { }\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "CardComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "CardComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "DataModule",
+            "id": "module-DataModule-1b8c664a3335a15181695e4f0986bc2f666559066bf7f2219a0b10961bf77f2e9496ebb59dee705dd56b099b3e307ed5073bce30ec3afa45a476b05aef88341b",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/data/data.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';\nimport { UserRepository } from 'src/domain/repositories/user.repository';\nimport { UserLoginUseCase } from 'src/domain/usecases/user-login.usecase';\nimport { UserRegisterUseCase } from 'src/domain/usecases/user-register.usecase';\nimport { GetUserProfileUseCase } from 'src/domain/usecases/get-user-profile.usecase';\nimport { UserImplementationRepository } from './repositories/user-implementation.repository';\nimport { UserImplementationRepositoryV2 } from './repositories/user-implementation.repositoryV2';\nimport { OAuthModule } from 'angular-oauth2-oidc';\n\n\nconst userLoginUseCaseFactory = \n(userRepo: UserRepository) => new UserLoginUseCase(userRepo);\nexport const userLoginUseCaseProvider = {\n    provide: UserLoginUseCase,\n    useFactory: userLoginUseCaseFactory,\n    deps: [UserRepository],\n};\n\nconst userRegisterUseCaseFactory = \n(userRepo: UserRepository) => new UserRegisterUseCase(userRepo);\nexport const userRegisterUseCaseProvider = {\n    provide: UserRegisterUseCase,\n    useFactory: userRegisterUseCaseFactory,\n    deps: [UserRepository],\n};\n\nconst getUserProfileUseCaseFactory = \n(userRepo: UserRepository) => new GetUserProfileUseCase(userRepo);\nexport const getUserProfileUseCaseProvider = {\n    provide: GetUserProfileUseCase,\n    useFactory: getUserProfileUseCaseFactory,\n    deps: [UserRepository],\n};\n\n@NgModule({\n    providers: [\n        userLoginUseCaseProvider,\n        userRegisterUseCaseProvider,\n        getUserProfileUseCaseProvider,\n        { provide: UserRepository, useClass: UserImplementationRepositoryV2 }\n    ],\n    imports: [\n        CommonModule,\n        HttpClientModule,\n        OAuthModule.forRoot()\n    ],\n})\nexport class DataModule { }",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": []
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "NavbarModule",
+            "id": "module-NavbarModule-206cd17f701ed3c84805f3555bb3483c21e1964d8bc35e40c806e49fee83463436ff6a294a332a0be50190b1da895e4488f0e7733db645496c7916fea9e74ff4",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/design/components/atomic/navbar/navbar.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { NavbarComponent } from './navbar.component';\n\n\n\n@NgModule({\n  declarations: [\n    NavbarComponent\n  ],\n  imports: [\n    CommonModule\n  ],\n  exports: [NavbarComponent]\n})\nexport class NavbarModule { }\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "NavbarComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "NavbarComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "SpinnerModule",
+            "id": "module-SpinnerModule-66ebed1bf4ab5799bc9924786bf9480aee59c7de79c18d708f5ce372e6e9327106aff2723ff7b8c256ca8a2726f34699f600ba9d3a9b62b6522fc64c3fd44b2b",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/design/components/atomic/spinner/spinner.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { SpinnerComponent } from './spinner.component';\n\n\n\n@NgModule({\n  declarations: [\n    SpinnerComponent\n  ],\n  imports: [\n    CommonModule\n  ],\n  exports: [SpinnerComponent]\n})\nexport class SpinnerModule { }\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "SpinnerComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "SpinnerComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "SwitchModule",
+            "id": "module-SwitchModule-77a55f15687d99c785259d4929a75416615ba91bf2270a5e5c76039c30d036691dec1b4ef0bac7e2e9826ef7a47a9e0d61c420c2248bfc924e06e3520e61cd04",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/design/components/atomic/switch/switch.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { SwitchComponent } from './switch.component';\nimport { FormsModule } from '@angular/forms';\n\n\n\n@NgModule({\n  declarations: [\n    SwitchComponent\n  ],\n  imports: [\n    CommonModule,\n    FormsModule,\n  ]\n})\nexport class SwitchModule { }\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "SwitchComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        }
+    ],
+    "miscellaneous": {
+        "variables": [
+            {
+                "name": "authConfig",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/core/oauth2/oauth2.config.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "AuthConfig",
+                "defaultValue": "{\r\n  issuer: environment.sso.issuer,\r\n  strictDiscoveryDocumentValidation: environment.sso.strictDiscoveryDocumentValidation,\r\n  redirectUri: environment.sso.redirectUri,\r\n  clientId: environment.sso.clientId,\r\n  scope: environment.sso.scope\r\n}"
+            },
+            {
+                "name": "environment",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/environments/environment.prod.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  production: true\n}"
+            },
+            {
+                "name": "environment",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/environments/environment.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  production: false,\n  sso: {\n    issuer :  'https://accounts.google.com',\n    strictDiscoveryDocumentValidation: false,\n    redirectUri : window.location.origin,\n    clientId : '537264125367-4lmd506jgivbtf94isuosi7u21d961vf.apps.googleusercontent.com',\n    scope: 'openid profile email'\n  }\n}"
+            },
+            {
+                "name": "getUserProfileUseCaseFactory",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/data/data.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(userRepo: UserRepository) => new GetUserProfileUseCase(userRepo)"
+            },
+            {
+                "name": "getUserProfileUseCaseProvider",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/data/data.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n    provide: GetUserProfileUseCase,\n    useFactory: getUserProfileUseCaseFactory,\n    deps: [UserRepository],\n}"
+            },
+            {
+                "name": "Large",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    size: 'large',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "LoggedIn",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    user: {\n      name: 'Jane Doe',\n    },\n  },\n}"
+            },
+            {
+                "name": "LoggedIn",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Page.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  render: (args: Page) => ({\n    props: args,\n  }),\n  play: async ({ canvasElement }) => {\n    const canvas = within(canvasElement);\n    const loginButton = await canvas.getByRole('button', {\n      name: /Log in/i,\n    });\n    await userEvent.click(loginButton);\n  },\n}"
+            },
+            {
+                "name": "LoggedOut",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{}"
+            },
+            {
+                "name": "LoggedOut",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Page.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  render: (args: Page) => ({\n    props: args,\n  }),\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<Header>",
+                "defaultValue": "{\n  title: 'Example/Header',\n  component: Header,\n  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/angular/writing-docs/autodocs\n  tags: ['autodocs'],\n  render: (args) => ({ props: args }),\n  decorators: [\n    moduleMetadata({\n      declarations: [Button],\n      imports: [CommonModule],\n    }),\n  ],\n  parameters: {\n    // More on how to position stories at: https://storybook.js.org/docs/angular/configure/story-layout\n    layout: 'fullscreen',\n  },\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<Button>",
+                "defaultValue": "{\n  title: 'Example/Button',\n  component: Button,\n  tags: ['autodocs'],\n  render: (args: Button) => ({\n    props: {\n      backgroundColor: null,\n      ...args,\n    },\n  }),\n  argTypes: {\n    backgroundColor: {\n      control: 'color',\n    },\n  },\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Page.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<Page>",
+                "defaultValue": "{\n  title: 'Example/Page',\n  component: Page,\n  parameters: {\n    // More on how to position stories at: https://storybook.js.org/docs/angular/configure/story-layout\n    layout: 'fullscreen',\n  },\n  decorators: [\n    moduleMetadata({\n      declarations: [Button, Header],\n      imports: [CommonModule],\n    }),\n  ],\n}"
+            },
+            {
+                "name": "preview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": ".storybook/preview.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Preview",
+                "defaultValue": "{\n  parameters: {\n    actions: { argTypesRegex: \"^on[A-Z].*\" },\n    controls: {\n      matchers: {\n        color: /(background|color)$/i,\n        date: /Date$/,\n      },\n    },\n  },\n}"
+            },
+            {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    primary: true,\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/design/components/atomic/switch/switch.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Secondary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Small",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    size: 'small',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/design/components/atomic/switch/switch.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<SwitchComponent>",
+                "defaultValue": "(args: SwitchComponent) => ({\n  props: args,\n  moduleMetadata: {\n      imports: [FormsModule]\n  }\n})"
+            },
+            {
+                "name": "userLoginUseCaseFactory",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/data/data.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(userRepo: UserRepository) => new UserLoginUseCase(userRepo)"
+            },
+            {
+                "name": "userLoginUseCaseProvider",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/data/data.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n    provide: UserLoginUseCase,\n    useFactory: userLoginUseCaseFactory,\n    deps: [UserRepository],\n}"
+            },
+            {
+                "name": "userRegisterUseCaseFactory",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/data/data.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(userRepo: UserRepository) => new UserRegisterUseCase(userRepo)"
+            },
+            {
+                "name": "userRegisterUseCaseProvider",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/data/data.module.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n    provide: UserRegisterUseCase,\n    useFactory: userRegisterUseCaseFactory,\n    deps: [UserRepository],\n}"
+            }
+        ],
+        "functions": [],
+        "typealiases": [
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<Header>",
+                "file": "src/stories/Header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 177
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<Button>",
+                "file": "src/stories/Button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 177
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<Page>",
+                "file": "src/stories/Page.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 177
+            }
+        ],
+        "enumerations": [],
+        "groupedVariables": {
+            "src/core/oauth2/oauth2.config.ts": [
+                {
+                    "name": "authConfig",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/core/oauth2/oauth2.config.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "AuthConfig",
+                    "defaultValue": "{\r\n  issuer: environment.sso.issuer,\r\n  strictDiscoveryDocumentValidation: environment.sso.strictDiscoveryDocumentValidation,\r\n  redirectUri: environment.sso.redirectUri,\r\n  clientId: environment.sso.clientId,\r\n  scope: environment.sso.scope\r\n}"
+                }
+            ],
+            "src/environments/environment.prod.ts": [
+                {
+                    "name": "environment",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.prod.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  production: true\n}"
+                }
+            ],
+            "src/environments/environment.ts": [
+                {
+                    "name": "environment",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  production: false,\n  sso: {\n    issuer :  'https://accounts.google.com',\n    strictDiscoveryDocumentValidation: false,\n    redirectUri : window.location.origin,\n    clientId : '537264125367-4lmd506jgivbtf94isuosi7u21d961vf.apps.googleusercontent.com',\n    scope: 'openid profile email'\n  }\n}"
+                }
+            ],
+            "src/data/data.module.ts": [
+                {
+                    "name": "getUserProfileUseCaseFactory",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/data/data.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(userRepo: UserRepository) => new GetUserProfileUseCase(userRepo)"
+                },
+                {
+                    "name": "getUserProfileUseCaseProvider",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/data/data.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n    provide: GetUserProfileUseCase,\n    useFactory: getUserProfileUseCaseFactory,\n    deps: [UserRepository],\n}"
+                },
+                {
+                    "name": "userLoginUseCaseFactory",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/data/data.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(userRepo: UserRepository) => new UserLoginUseCase(userRepo)"
+                },
+                {
+                    "name": "userLoginUseCaseProvider",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/data/data.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n    provide: UserLoginUseCase,\n    useFactory: userLoginUseCaseFactory,\n    deps: [UserRepository],\n}"
+                },
+                {
+                    "name": "userRegisterUseCaseFactory",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/data/data.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(userRepo: UserRepository) => new UserRegisterUseCase(userRepo)"
+                },
+                {
+                    "name": "userRegisterUseCaseProvider",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/data/data.module.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n    provide: UserRegisterUseCase,\n    useFactory: userRegisterUseCaseFactory,\n    deps: [UserRepository],\n}"
+                }
+            ],
+            "src/stories/Button.stories.ts": [
+                {
+                    "name": "Large",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    size: 'large',\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<Button>",
+                    "defaultValue": "{\n  title: 'Example/Button',\n  component: Button,\n  tags: ['autodocs'],\n  render: (args: Button) => ({\n    props: {\n      backgroundColor: null,\n      ...args,\n    },\n  }),\n  argTypes: {\n    backgroundColor: {\n      control: 'color',\n    },\n  },\n}"
+                },
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    primary: true,\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "Secondary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "Small",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    size: 'small',\n    label: 'Button',\n  },\n}"
+                }
+            ],
+            "src/stories/Header.stories.ts": [
+                {
+                    "name": "LoggedIn",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    user: {\n      name: 'Jane Doe',\n    },\n  },\n}"
+                },
+                {
+                    "name": "LoggedOut",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<Header>",
+                    "defaultValue": "{\n  title: 'Example/Header',\n  component: Header,\n  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/angular/writing-docs/autodocs\n  tags: ['autodocs'],\n  render: (args) => ({ props: args }),\n  decorators: [\n    moduleMetadata({\n      declarations: [Button],\n      imports: [CommonModule],\n    }),\n  ],\n  parameters: {\n    // More on how to position stories at: https://storybook.js.org/docs/angular/configure/story-layout\n    layout: 'fullscreen',\n  },\n}"
+                }
+            ],
+            "src/stories/Page.stories.ts": [
+                {
+                    "name": "LoggedIn",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Page.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  render: (args: Page) => ({\n    props: args,\n  }),\n  play: async ({ canvasElement }) => {\n    const canvas = within(canvasElement);\n    const loginButton = await canvas.getByRole('button', {\n      name: /Log in/i,\n    });\n    await userEvent.click(loginButton);\n  },\n}"
+                },
+                {
+                    "name": "LoggedOut",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Page.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  render: (args: Page) => ({\n    props: args,\n  }),\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Page.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<Page>",
+                    "defaultValue": "{\n  title: 'Example/Page',\n  component: Page,\n  parameters: {\n    // More on how to position stories at: https://storybook.js.org/docs/angular/configure/story-layout\n    layout: 'fullscreen',\n  },\n  decorators: [\n    moduleMetadata({\n      declarations: [Button, Header],\n      imports: [CommonModule],\n    }),\n  ],\n}"
+                }
+            ],
+            ".storybook/preview.ts": [
+                {
+                    "name": "preview",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": ".storybook/preview.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Preview",
+                    "defaultValue": "{\n  parameters: {\n    actions: { argTypesRegex: \"^on[A-Z].*\" },\n    controls: {\n      matchers: {\n        color: /(background|color)$/i,\n        date: /Date$/,\n      },\n    },\n  },\n}"
+                }
+            ],
+            "src/design/components/atomic/switch/switch.stories.ts": [
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/design/components/atomic/switch/switch.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/design/components/atomic/switch/switch.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<SwitchComponent>",
+                    "defaultValue": "(args: SwitchComponent) => ({\n  props: args,\n  moduleMetadata: {\n      imports: [FormsModule]\n  }\n})"
+                }
+            ]
+        },
+        "groupedFunctions": {},
+        "groupedEnumerations": {},
+        "groupedTypeAliases": {
+            "src/stories/Header.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<Header>",
+                    "file": "src/stories/Header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 177
+                }
+            ],
+            "src/stories/Button.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<Button>",
+                    "file": "src/stories/Button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 177
+                }
+            ],
+            "src/stories/Page.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<Page>",
+                    "file": "src/stories/Page.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 177
+                }
+            ]
+        }
+    },
+    "routes": {
+        "name": "<root>",
+        "kind": "module",
+        "className": "AppModule",
+        "children": [
+            {
+                "name": "routes",
+                "filename": "src/presentation/app/app-routing.module.ts",
+                "module": "AppRoutingModule",
+                "children": [],
+                "kind": "module"
+            }
+        ]
+    },
+    "coverage": {
+        "count": 1,
+        "status": "low",
+        "files": [
+            {
+                "filePath": ".storybook/preview.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "preview",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/base/mapper.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "Mapper",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/base/use-case.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "UseCase",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "src/core/oauth2/oauth2.config.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "authConfig",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/data/data.module.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "getUserProfileUseCaseFactory",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/data/data.module.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "getUserProfileUseCaseProvider",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/data/data.module.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "userLoginUseCaseFactory",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/data/data.module.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "userLoginUseCaseProvider",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/data/data.module.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "userRegisterUseCaseFactory",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/data/data.module.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "userRegisterUseCaseProvider",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/data/repositories/user-implementation.repository.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "UserImplementationRepository",
+                "coveragePercent": 0,
+                "coverageCount": "0/6",
+                "status": "low"
+            },
+            {
+                "filePath": "src/data/repositories/user-implementation.repositoryV2.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "UserImplementationRepositoryV2",
+                "coveragePercent": 0,
+                "coverageCount": "0/9",
+                "status": "low"
+            },
+            {
+                "filePath": "src/data/repositories/user-implementation.repositoryV2.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "UserInfo",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "src/data/repositories/user/entities/user-entity.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "UserEntity",
+                "coveragePercent": 0,
+                "coverageCount": "0/7",
+                "status": "low"
+            },
+            {
+                "filePath": "src/data/repositories/user/mappers/user-repository.mapper.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "UserImplementationRepositoryMapper",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/design/components/atomic/card/card.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "CardComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/design/components/atomic/navbar/navbar.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "NavbarComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/design/components/atomic/spinner/spinner.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SpinnerComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/design/components/atomic/switch/switch.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SwitchComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/9",
+                "status": "low"
+            },
+            {
+                "filePath": "src/design/components/atomic/switch/switch.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Primary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/design/components/atomic/switch/switch.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/domain/models/user.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "UserModel",
+                "coveragePercent": 0,
+                "coverageCount": "0/9",
+                "status": "low"
+            },
+            {
+                "filePath": "src/domain/repositories/user.repository.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "UserRepository",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/domain/usecases/get-user-profile.usecase.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "GetUserProfileUseCase",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/domain/usecases/user-login.usecase.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "UserLoginUseCase",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/domain/usecases/user-register.usecase.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "UserRegisterUseCase",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/environments/environment.prod.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "environment",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/environments/environment.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "environment",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/presentation/app/app.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "AppComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Large",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Primary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Secondary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Small",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Header.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoggedIn",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Header.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoggedOut",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Header.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Page.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoggedIn",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Page.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoggedOut",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Page.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/User.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "User",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/button.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ButtonComponent",
+                "coveragePercent": 83,
+                "coverageCount": "5/6",
+                "status": "very-good"
+            },
+            {
+                "filePath": "src/stories/header.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "HeaderComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/page.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "PageComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            }
+        ]
+    }
+}

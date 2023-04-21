@@ -2,8 +2,16 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+
 export const environment = {
-  production: false
+  production: false,
+  sso: {
+    issuer :  'https://accounts.google.com',
+    strictDiscoveryDocumentValidation: false,
+    redirectUri : window.location.origin,
+    clientId : '537264125367-4lmd506jgivbtf94isuosi7u21d961vf.apps.googleusercontent.com',
+    scope: 'openid profile email'
+  }
 };
 
 /*
