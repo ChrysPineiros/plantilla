@@ -1,6 +1,4 @@
-import { Component, enableProdMode } from '@angular/core';
-import { UserLoginUseCase } from 'src/domain/usecases/user-login.usecase';
-import { Service } from './app.service';
+import { Component, Input, enableProdMode } from '@angular/core';
 import DataSource from 'devextreme/data/data_source';
 
 if (!/localhost/.test(document.location.host)) {
@@ -12,12 +10,12 @@ const getOrderDay = function (rowData: any): number {
 };
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'cne-grid-filter-sorting',
+  templateUrl: './cne-grid-filter-sorting.component.html',
+  styleUrls: ['./cne-grid-filter-sorting.component.scss']
 })
-export class AppComponent {
-  title = 'clean-architecture-angular';
+export class CneGridFilterSortingComponent {
+  @Input()
   dataSource: any;
 
   filterValue: Array<any>;
@@ -27,12 +25,11 @@ export class AppComponent {
   popupPosition: any;
 
   saleAmountHeaderFilter: any;
+
+  @Input()
   columns: any;
 
-  constructor (private loginUC: UserLoginUseCase, service: Service){
-    this.dataSource = new DataSource({
-      store: service.getOrders(),
-    });
+  constructor() {
     this.popupPosition = {
       of: window, at: 'top', my: 'top', offset: { y: 10 },
     };
@@ -77,7 +74,6 @@ export class AppComponent {
       text: 'Greater than $20000',
       value: ['SaleAmount', '>=', 20000],
     }];
-
   }
 
   onInitialized(e: any) {
@@ -88,9 +84,4 @@ export class AppComponent {
       },
     });
   }
-
-  getUser(){
-    this.loginUC.execute({ username:'', password:''}).subscribe( res => console.log(res));
-  }
-  
 }

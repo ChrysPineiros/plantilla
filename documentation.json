@@ -2,6 +2,83 @@
     "pipes": [],
     "interfaces": [
         {
+            "name": "Order",
+            "id": "interface-Order-4d67e1c5eed4340d68fff71f684be41867a2813b4ddd498b91289ba376cf59f8dd7c98dd994163f78603b4db9dc5fd003141a03bfa7e399e02fa945c30572992",
+            "file": "src/presentation/app/app.service.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { Injectable } from '@angular/core';\r\n\r\nexport interface Order {\r\n  ID: number;\r\n\r\n  OrderNumber: number;\r\n\r\n  OrderDate: string;\r\n\r\n  SaleAmount: number;\r\n\r\n  Terms: string;\r\n\r\n  CustomerInfo: {\r\n    StoreState: string;\r\n    StoreCity: string;\r\n  };\r\n\r\n  Employee: string;\r\n}\r\n\r\nconst orders: Order[] = [{\r\n  ID: 1,\r\n  OrderNumber: 35703,\r\n  OrderDate: '2014/04/10',\r\n  SaleAmount: 11800,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 4,\r\n  OrderNumber: 35711,\r\n  OrderDate: '2014/01/12',\r\n  SaleAmount: 16050,\r\n  Terms: '15 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 5,\r\n  OrderNumber: 35714,\r\n  OrderDate: '2014/01/22',\r\n  SaleAmount: 14750,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 7,\r\n  OrderNumber: 35983,\r\n  OrderDate: '2014/02/07',\r\n  SaleAmount: 3725,\r\n  Terms: '15 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Colorado',\r\n    StoreCity: 'Denver',\r\n  },\r\n}, {\r\n  ID: 9,\r\n  OrderNumber: 36987,\r\n  OrderDate: '2014/03/11',\r\n  SaleAmount: 14200,\r\n  Terms: '15 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 11,\r\n  OrderNumber: 38466,\r\n  OrderDate: '2014/03/01',\r\n  SaleAmount: 7800,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 14,\r\n  OrderNumber: 39420,\r\n  OrderDate: '2014/02/15',\r\n  SaleAmount: 20500,\r\n  Terms: '15 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 15,\r\n  OrderNumber: 39874,\r\n  OrderDate: '2014/02/04',\r\n  SaleAmount: 9050,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 18,\r\n  OrderNumber: 42847,\r\n  OrderDate: '2014/02/15',\r\n  SaleAmount: 20400,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 19,\r\n  OrderNumber: 43982,\r\n  OrderDate: '2014/05/29',\r\n  SaleAmount: 6050,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 29,\r\n  OrderNumber: 56272,\r\n  OrderDate: '2014/02/06',\r\n  SaleAmount: 15850,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 30,\r\n  OrderNumber: 57429,\r\n  OrderDate: '2014/05/16',\r\n  SaleAmount: 11050,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}, {\r\n  ID: 32,\r\n  OrderNumber: 58292,\r\n  OrderDate: '2014/05/13',\r\n  SaleAmount: 13500,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 36,\r\n  OrderNumber: 62427,\r\n  OrderDate: '2014/01/27',\r\n  SaleAmount: 23500,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 39,\r\n  OrderNumber: 65977,\r\n  OrderDate: '2014/02/05',\r\n  SaleAmount: 2550,\r\n  Terms: '15 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 40,\r\n  OrderNumber: 66947,\r\n  OrderDate: '2014/03/23',\r\n  SaleAmount: 3500,\r\n  Terms: '15 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 42,\r\n  OrderNumber: 68428,\r\n  OrderDate: '2014/04/10',\r\n  SaleAmount: 10500,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 43,\r\n  OrderNumber: 69477,\r\n  OrderDate: '2014/03/09',\r\n  SaleAmount: 14200,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Anaheim',\r\n  },\r\n}, {\r\n  ID: 46,\r\n  OrderNumber: 72947,\r\n  OrderDate: '2014/01/14',\r\n  SaleAmount: 13350,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 47,\r\n  OrderNumber: 73088,\r\n  OrderDate: '2014/03/25',\r\n  SaleAmount: 8600,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Reno',\r\n  },\r\n}, {\r\n  ID: 50,\r\n  OrderNumber: 76927,\r\n  OrderDate: '2014/04/27',\r\n  SaleAmount: 9800,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 51,\r\n  OrderNumber: 77297,\r\n  OrderDate: '2014/04/30',\r\n  SaleAmount: 10850,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}, {\r\n  ID: 56,\r\n  OrderNumber: 84744,\r\n  OrderDate: '2014/02/10',\r\n  SaleAmount: 4650,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 57,\r\n  OrderNumber: 85028,\r\n  OrderDate: '2014/05/17',\r\n  SaleAmount: 2575,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Reno',\r\n  },\r\n}, {\r\n  ID: 59,\r\n  OrderNumber: 87297,\r\n  OrderDate: '2014/04/21',\r\n  SaleAmount: 14200,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 60,\r\n  OrderNumber: 88027,\r\n  OrderDate: '2014/02/14',\r\n  SaleAmount: 13650,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 65,\r\n  OrderNumber: 94726,\r\n  OrderDate: '2014/05/22',\r\n  SaleAmount: 20500,\r\n  Terms: '15 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 66,\r\n  OrderNumber: 95266,\r\n  OrderDate: '2014/03/10',\r\n  SaleAmount: 9050,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 69,\r\n  OrderNumber: 98477,\r\n  OrderDate: '2014/01/01',\r\n  SaleAmount: 23500,\r\n  Terms: '15 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 70,\r\n  OrderNumber: 99247,\r\n  OrderDate: '2014/02/08',\r\n  SaleAmount: 2100,\r\n  Terms: '15 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 78,\r\n  OrderNumber: 174884,\r\n  OrderDate: '2014/04/10',\r\n  SaleAmount: 7200,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Colorado',\r\n    StoreCity: 'Denver',\r\n  },\r\n}, {\r\n  ID: 81,\r\n  OrderNumber: 188877,\r\n  OrderDate: '2014/02/11',\r\n  SaleAmount: 8750,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}, {\r\n  ID: 82,\r\n  OrderNumber: 191883,\r\n  OrderDate: '2014/02/05',\r\n  SaleAmount: 9900,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 83,\r\n  OrderNumber: 192474,\r\n  OrderDate: '2014/01/21',\r\n  SaleAmount: 12800,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Anaheim',\r\n  },\r\n}, {\r\n  ID: 84,\r\n  OrderNumber: 193847,\r\n  OrderDate: '2014/03/21',\r\n  SaleAmount: 14100,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Diego',\r\n  },\r\n}, {\r\n  ID: 85,\r\n  OrderNumber: 194877,\r\n  OrderDate: '2014/03/06',\r\n  SaleAmount: 4750,\r\n  Terms: '30 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 86,\r\n  OrderNumber: 195746,\r\n  OrderDate: '2014/05/26',\r\n  SaleAmount: 9050,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 87,\r\n  OrderNumber: 197474,\r\n  OrderDate: '2014/03/02',\r\n  SaleAmount: 6400,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Reno',\r\n  },\r\n}, {\r\n  ID: 88,\r\n  OrderNumber: 198746,\r\n  OrderDate: '2014/05/09',\r\n  SaleAmount: 15700,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Colorado',\r\n    StoreCity: 'Denver',\r\n  },\r\n}, {\r\n  ID: 91,\r\n  OrderNumber: 214222,\r\n  OrderDate: '2014/02/08',\r\n  SaleAmount: 11050,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}];\r\n\r\n@Injectable()\r\nexport class Service {\r\n  getOrders(): Order[] {\r\n    return orders;\r\n  }\r\n}",
+            "properties": [
+                {
+                    "name": "CustomerInfo",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "literal type",
+                    "optional": false,
+                    "description": "",
+                    "line": 14
+                },
+                {
+                    "name": "Employee",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 19
+                },
+                {
+                    "name": "ID",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                },
+                {
+                    "name": "OrderDate",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 8
+                },
+                {
+                    "name": "OrderNumber",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                },
+                {
+                    "name": "SaleAmount",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                },
+                {
+                    "name": "Terms",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 12
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        },
+        {
             "name": "UseCase",
             "id": "interface-UseCase-62439334c348cecc25cf245acf1ed8ecc6db0c32db7e1511c981bd349dc809e501f51f4864a6b516b8c2ea92bfaff10122ccac0c5718d9374e238d27b925f0a2",
             "file": "src/base/use-case.ts",
@@ -234,6 +311,30 @@
         }
     ],
     "injectables": [
+        {
+            "name": "Service",
+            "id": "injectable-Service-4d67e1c5eed4340d68fff71f684be41867a2813b4ddd498b91289ba376cf59f8dd7c98dd994163f78603b4db9dc5fd003141a03bfa7e399e02fa945c30572992",
+            "file": "src/presentation/app/app.service.ts",
+            "properties": [],
+            "methods": [
+                {
+                    "name": "getOrders",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "Order[]",
+                    "typeParameters": [],
+                    "line": 466,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\r\n\r\nexport interface Order {\r\n  ID: number;\r\n\r\n  OrderNumber: number;\r\n\r\n  OrderDate: string;\r\n\r\n  SaleAmount: number;\r\n\r\n  Terms: string;\r\n\r\n  CustomerInfo: {\r\n    StoreState: string;\r\n    StoreCity: string;\r\n  };\r\n\r\n  Employee: string;\r\n}\r\n\r\nconst orders: Order[] = [{\r\n  ID: 1,\r\n  OrderNumber: 35703,\r\n  OrderDate: '2014/04/10',\r\n  SaleAmount: 11800,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 4,\r\n  OrderNumber: 35711,\r\n  OrderDate: '2014/01/12',\r\n  SaleAmount: 16050,\r\n  Terms: '15 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 5,\r\n  OrderNumber: 35714,\r\n  OrderDate: '2014/01/22',\r\n  SaleAmount: 14750,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 7,\r\n  OrderNumber: 35983,\r\n  OrderDate: '2014/02/07',\r\n  SaleAmount: 3725,\r\n  Terms: '15 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Colorado',\r\n    StoreCity: 'Denver',\r\n  },\r\n}, {\r\n  ID: 9,\r\n  OrderNumber: 36987,\r\n  OrderDate: '2014/03/11',\r\n  SaleAmount: 14200,\r\n  Terms: '15 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 11,\r\n  OrderNumber: 38466,\r\n  OrderDate: '2014/03/01',\r\n  SaleAmount: 7800,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 14,\r\n  OrderNumber: 39420,\r\n  OrderDate: '2014/02/15',\r\n  SaleAmount: 20500,\r\n  Terms: '15 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 15,\r\n  OrderNumber: 39874,\r\n  OrderDate: '2014/02/04',\r\n  SaleAmount: 9050,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 18,\r\n  OrderNumber: 42847,\r\n  OrderDate: '2014/02/15',\r\n  SaleAmount: 20400,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 19,\r\n  OrderNumber: 43982,\r\n  OrderDate: '2014/05/29',\r\n  SaleAmount: 6050,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 29,\r\n  OrderNumber: 56272,\r\n  OrderDate: '2014/02/06',\r\n  SaleAmount: 15850,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 30,\r\n  OrderNumber: 57429,\r\n  OrderDate: '2014/05/16',\r\n  SaleAmount: 11050,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}, {\r\n  ID: 32,\r\n  OrderNumber: 58292,\r\n  OrderDate: '2014/05/13',\r\n  SaleAmount: 13500,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 36,\r\n  OrderNumber: 62427,\r\n  OrderDate: '2014/01/27',\r\n  SaleAmount: 23500,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 39,\r\n  OrderNumber: 65977,\r\n  OrderDate: '2014/02/05',\r\n  SaleAmount: 2550,\r\n  Terms: '15 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 40,\r\n  OrderNumber: 66947,\r\n  OrderDate: '2014/03/23',\r\n  SaleAmount: 3500,\r\n  Terms: '15 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 42,\r\n  OrderNumber: 68428,\r\n  OrderDate: '2014/04/10',\r\n  SaleAmount: 10500,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 43,\r\n  OrderNumber: 69477,\r\n  OrderDate: '2014/03/09',\r\n  SaleAmount: 14200,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Anaheim',\r\n  },\r\n}, {\r\n  ID: 46,\r\n  OrderNumber: 72947,\r\n  OrderDate: '2014/01/14',\r\n  SaleAmount: 13350,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 47,\r\n  OrderNumber: 73088,\r\n  OrderDate: '2014/03/25',\r\n  SaleAmount: 8600,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Reno',\r\n  },\r\n}, {\r\n  ID: 50,\r\n  OrderNumber: 76927,\r\n  OrderDate: '2014/04/27',\r\n  SaleAmount: 9800,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 51,\r\n  OrderNumber: 77297,\r\n  OrderDate: '2014/04/30',\r\n  SaleAmount: 10850,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}, {\r\n  ID: 56,\r\n  OrderNumber: 84744,\r\n  OrderDate: '2014/02/10',\r\n  SaleAmount: 4650,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 57,\r\n  OrderNumber: 85028,\r\n  OrderDate: '2014/05/17',\r\n  SaleAmount: 2575,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Reno',\r\n  },\r\n}, {\r\n  ID: 59,\r\n  OrderNumber: 87297,\r\n  OrderDate: '2014/04/21',\r\n  SaleAmount: 14200,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 60,\r\n  OrderNumber: 88027,\r\n  OrderDate: '2014/02/14',\r\n  SaleAmount: 13650,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 65,\r\n  OrderNumber: 94726,\r\n  OrderDate: '2014/05/22',\r\n  SaleAmount: 20500,\r\n  Terms: '15 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 66,\r\n  OrderNumber: 95266,\r\n  OrderDate: '2014/03/10',\r\n  SaleAmount: 9050,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 69,\r\n  OrderNumber: 98477,\r\n  OrderDate: '2014/01/01',\r\n  SaleAmount: 23500,\r\n  Terms: '15 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 70,\r\n  OrderNumber: 99247,\r\n  OrderDate: '2014/02/08',\r\n  SaleAmount: 2100,\r\n  Terms: '15 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 78,\r\n  OrderNumber: 174884,\r\n  OrderDate: '2014/04/10',\r\n  SaleAmount: 7200,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Colorado',\r\n    StoreCity: 'Denver',\r\n  },\r\n}, {\r\n  ID: 81,\r\n  OrderNumber: 188877,\r\n  OrderDate: '2014/02/11',\r\n  SaleAmount: 8750,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}, {\r\n  ID: 82,\r\n  OrderNumber: 191883,\r\n  OrderDate: '2014/02/05',\r\n  SaleAmount: 9900,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 83,\r\n  OrderNumber: 192474,\r\n  OrderDate: '2014/01/21',\r\n  SaleAmount: 12800,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Anaheim',\r\n  },\r\n}, {\r\n  ID: 84,\r\n  OrderNumber: 193847,\r\n  OrderDate: '2014/03/21',\r\n  SaleAmount: 14100,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Diego',\r\n  },\r\n}, {\r\n  ID: 85,\r\n  OrderNumber: 194877,\r\n  OrderDate: '2014/03/06',\r\n  SaleAmount: 4750,\r\n  Terms: '30 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 86,\r\n  OrderNumber: 195746,\r\n  OrderDate: '2014/05/26',\r\n  SaleAmount: 9050,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 87,\r\n  OrderNumber: 197474,\r\n  OrderDate: '2014/03/02',\r\n  SaleAmount: 6400,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Reno',\r\n  },\r\n}, {\r\n  ID: 88,\r\n  OrderNumber: 198746,\r\n  OrderDate: '2014/05/09',\r\n  SaleAmount: 15700,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Colorado',\r\n    StoreCity: 'Denver',\r\n  },\r\n}, {\r\n  ID: 91,\r\n  OrderNumber: 214222,\r\n  OrderDate: '2014/02/08',\r\n  SaleAmount: 11050,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}];\r\n\r\n@Injectable()\r\nexport class Service {\r\n  getOrders(): Order[] {\r\n    return orders;\r\n  }\r\n}",
+            "type": "injectable"
+        },
         {
             "name": "UserImplementationRepository",
             "id": "injectable-UserImplementationRepository-ed46c3073dbd1acbf648acb63de3f2952bd5acd08c76835b911124e940f71cdfda881f117e9ccb1c3b816bdd72c1ce53faf586d7f00e1d4aa9e030697161f0d2",
@@ -1081,7 +1182,7 @@
                     }
                 ]
             },
-            "templateData": "\n<div class=\"row\">\n    <div class=\"col-6\">Cambio de Domicilio</div>\n    <div class=\"col-6\">\n        <button (click)=\"getUser()\">Probar</button>\n    </div>\n    <div class=\"col-12\">footer</div>\n</div>\n"
+            "templateData": "\n<div class=\"row\">\n    <div class=\"col-6\">Cambio de Domicilio</div>\n    <div class=\"col-6\">\n        <button (click)=\"getUser()\">Probar</button>\n        <dx-button\n            text=\"Click me\"\n            (onClick)=\"getUser()\">\n        </dx-button>\n    </div>\n    <div class=\"col-12\">footer</div>\n</div>\n"
         },
         {
             "name": "ButtonComponent",
@@ -1208,46 +1309,108 @@
             }
         },
         {
-            "name": "CardComponent",
-            "id": "component-CardComponent-a4df8ced816ba370cf4396e751698207c3b2d8160c3d0092dd6ded0f972e1c6cd597c60937ab12e2487330136bf5994ad4e5a6087541e60f7677edbc3c90b983",
-            "file": "src/design/components/atomic/card/card.component.ts",
+            "name": "CneGridFilterSortingComponent",
+            "id": "component-CneGridFilterSortingComponent-53ea6cc3d48de7eab78fd389d42218a0f60dc4593f402ac18225547581187709015dedd6bc9ebfc20e3ecf138e1bb11233b2b345646fa7a75478e4f72f97241d",
+            "file": "src/design/components/atomic/cne-grid-filter-sorting/cne-grid-filter-sorting.component.ts",
             "encapsulation": [],
             "entryComponents": [],
             "inputs": [],
             "outputs": [],
             "providers": [],
-            "selector": "app-card",
+            "selector": "cne-grid-filter-sorting",
             "styleUrls": [
-                "./card.component.scss"
+                "./cne-grid-filter-sorting.component.scss"
             ],
             "styles": [],
             "templateUrl": [
-                "./card.component.html"
+                "./cne-grid-filter-sorting.component.html"
             ],
             "viewProviders": [],
             "inputsClass": [
                 {
-                    "name": "avatar",
-                    "defaultValue": "''",
+                    "name": "columns",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 9,
-                    "type": "string",
+                    "line": 30,
+                    "type": "any",
+                    "decorators": []
+                },
+                {
+                    "name": "dataSource",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 19,
+                    "type": "any",
                     "decorators": []
                 }
             ],
             "outputsClass": [],
-            "propertiesClass": [],
+            "propertiesClass": [
+                {
+                    "name": "customOperations",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Array<any>",
+                    "optional": false,
+                    "description": "",
+                    "line": 23
+                },
+                {
+                    "name": "filterValue",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Array<any>",
+                    "optional": false,
+                    "description": "",
+                    "line": 21
+                },
+                {
+                    "name": "popupPosition",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 25
+                },
+                {
+                    "name": "saleAmountHeaderFilter",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 27
+                }
+            ],
             "methodsClass": [
                 {
-                    "name": "ngOnInit",
-                    "args": [],
+                    "name": "onInitialized",
+                    "args": [
+                        {
+                            "name": "e",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 12,
+                    "line": 79,
                     "deprecated": false,
-                    "deprecationMessage": ""
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "e",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
                 }
             ],
             "deprecated": false,
@@ -1257,12 +1420,12 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, Input, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-card',\n  templateUrl: './card.component.html',\n  styleUrls: ['./card.component.scss']\n})\nexport class CardComponent implements OnInit {\n  @Input() avatar: string = '';\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
+            "sourceCode": "import { Component, Input, enableProdMode } from '@angular/core';\nimport DataSource from 'devextreme/data/data_source';\n\nif (!/localhost/.test(document.location.host)) {\n  enableProdMode();\n}\n\nconst getOrderDay = function (rowData: any): number {\n  return (new Date(rowData.OrderDate)).getDay();\n};\n\n@Component({\n  selector: 'cne-grid-filter-sorting',\n  templateUrl: './cne-grid-filter-sorting.component.html',\n  styleUrls: ['./cne-grid-filter-sorting.component.scss']\n})\nexport class CneGridFilterSortingComponent {\n  @Input()\n  dataSource: any;\n\n  filterValue: Array<any>;\n\n  customOperations: Array<any>;\n\n  popupPosition: any;\n\n  saleAmountHeaderFilter: any;\n\n  @Input()\n  columns: any;\n\n  constructor() {\n    this.popupPosition = {\n      of: window, at: 'top', my: 'top', offset: { y: 10 },\n    };\n    this.filterValue = [\n      ['Employee', '=', 'Clark Morgan'],\n      'and',\n      ['OrderDate', 'weekends'],\n    ];\n    this.customOperations = [{\n      name: 'weekends',\n      caption: 'Weekends',\n      dataTypes: ['date'],\n      icon: 'check',\n      hasValue: false,\n      calculateFilterExpression() {\n        return [[getOrderDay, '=', 0], 'or', [getOrderDay, '=', 6]];\n      },\n    }];\n\n    this.saleAmountHeaderFilter = [{\n      text: 'Less than $3000',\n      value: ['SaleAmount', '<', 3000],\n    }, {\n      text: '$3000 - $5000',\n      value: [\n        ['SaleAmount', '>=', 3000],\n        ['SaleAmount', '<', 5000],\n      ],\n    }, {\n      text: '$5000 - $10000',\n      value: [\n        ['SaleAmount', '>=', 5000],\n        ['SaleAmount', '<', 10000],\n      ],\n    }, {\n      text: '$10000 - $20000',\n      value: [\n        ['SaleAmount', '>=', 10000],\n        ['SaleAmount', '<', 20000],\n      ],\n    }, {\n      text: 'Greater than $20000',\n      value: ['SaleAmount', '>=', 20000],\n    }];\n  }\n\n  onInitialized(e: any) {\n    e.component.columnOption('SaleAmount', {\n      editorOptions: {\n        format: 'currency',\n        showClearButton: true,\n      },\n    });\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".card {\n    /* Add shadows to create the \"card\" effect */\n    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);\n    transition: 0.3s;\n    width: 230px;\n    margin-bottom: 1rem;\n  }\n  \n  /* On mouse-over, add a deeper shadow */\n  .card:hover {\n    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);\n  }\n  \n  /* Add some padding inside the card container */\n  .container {\n    padding: 2px 16px;\n  }",
-                    "styleUrl": "./card.component.scss"
+                    "data": "::ng-deep .demo-container {\r\n    height: 570px;\r\n  }\r\n  \r\n  ::ng-deep #gridContainer {\r\n    height: 440px;\r\n  }\r\n  \r\n  ::ng-deep .dx-filterbuilder-overlay .dx-scrollable-container {\r\n    max-height: 400px;\r\n  }",
+                    "styleUrl": "./cne-grid-filter-sorting.component.scss"
                 }
             ],
             "stylesData": "",
@@ -1272,12 +1435,9 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 9
+                "line": 30
             },
-            "implements": [
-                "OnInit"
-            ],
-            "templateData": "<div class=\"card\">\n    <img [src]=\"avatar\" alt=\"Avatar\" style=\"width:100%\">\n  <div class=\"container\">\n    <ng-content></ng-content>\n  </div>\n    \n</div>"
+            "templateData": "<dx-data-grid\n  id=\"gridContainer\"\n  [dataSource]=\"dataSource\"\n  keyExpr=\"ID\"\n  [columns]=\"columns\"\n  [filterValue]=\"filterValue\"\n  (onInitialized)=\"onInitialized($event)\"\n  [showBorders]=\"true\"\n>\n  <dxo-filter-panel [visible]=\"true\"></dxo-filter-panel>\n  <dxo-filter-builder\n    [customOperations]=\"customOperations\"\n    [allowHierarchicalFields]=\"true\"\n  >\n  </dxo-filter-builder>\n  <dxo-filter-builder-popup [position]=\"popupPosition\">\n  </dxo-filter-builder-popup>\n  <dxo-filter-row [visible]=\"true\"></dxo-filter-row>\n  <dxo-header-filter [visible]=\"true\"></dxo-header-filter>\n  <dxo-scrolling mode=\"infinite\"></dxo-scrolling>\n  <dxi-column\n    dataField=\"OrderNumber\"\n    caption=\"Invoice Number\"\n    dataType=\"number\"\n  >\n    <dxo-header-filter [groupInterval]=\"10000\"></dxo-header-filter>\n  </dxi-column>\n  <dxi-column dataField=\"OrderDate\" dataType=\"date\"></dxi-column>\n  <dxi-column dataField=\"SaleAmount\" format=\"currency\" dataType=\"number\">\n    <dxo-header-filter\n      [dataSource]=\"saleAmountHeaderFilter\"\n    ></dxo-header-filter>\n  </dxi-column>\n  <dxi-column dataField=\"Employee\" dataType=\"string\"></dxi-column>\n  <dxi-column\n    dataField=\"CustomerInfo.StoreCity\"\n    caption=\"City\"\n    dataType=\"string\"\n  ></dxi-column>\n  <dxi-column\n    dataField=\"CustomerInfo.StoreState\"\n    caption=\"State\"\n    dataType=\"string\"\n  ></dxi-column>\n</dx-data-grid>"
         },
         {
             "name": "HeaderComponent",
@@ -1351,68 +1511,6 @@
                 }
             ],
             "stylesData": ""
-        },
-        {
-            "name": "NavbarComponent",
-            "id": "component-NavbarComponent-ba0b008325af088965b93d7e762e5b126f8f5ee7afc84fefb55dcba5cf68d1923f3fb637b5f47a6c2cc44e7311fb3ccce26f75de2c785ecc08c9e9fc3086291c",
-            "file": "src/design/components/atomic/navbar/navbar.component.ts",
-            "encapsulation": [],
-            "entryComponents": [],
-            "inputs": [],
-            "outputs": [],
-            "providers": [],
-            "selector": "app-navbar",
-            "styleUrls": [
-                "./navbar.component.scss"
-            ],
-            "styles": [],
-            "templateUrl": [
-                "./navbar.component.html"
-            ],
-            "viewProviders": [],
-            "inputsClass": [],
-            "outputsClass": [],
-            "propertiesClass": [],
-            "methodsClass": [
-                {
-                    "name": "ngOnInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 12,
-                    "deprecated": false,
-                    "deprecationMessage": ""
-                }
-            ],
-            "deprecated": false,
-            "deprecationMessage": "",
-            "hostBindings": [],
-            "hostListeners": [],
-            "description": "",
-            "rawdescription": "\n",
-            "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-navbar',\n  templateUrl: './navbar.component.html',\n  styleUrls: ['./navbar.component.scss']\n})\nexport class NavbarComponent implements OnInit {\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
-            "assetsDirs": [],
-            "styleUrlsData": [
-                {
-                    "data": "/* Add a black background color to the top navigation */\n.topnav {\n    background-color: #333;\n    overflow: hidden;\n  }\n  \n  /* Style the links inside the navigation bar */\n  .topnav a {\n    float: left;\n    color: #f2f2f2;\n    text-align: center;\n    padding: 14px 16px;\n    text-decoration: none;\n    font-size: 17px;\n  }\n  \n  /* Change the color of links on hover */\n  .topnav a:hover {\n    background-color: #ddd;\n    color: black;\n  }\n  \n  /* Add a color to the active/current link */\n  .topnav a.active {\n    background-color: #04AA6D;\n    color: white;\n  }",
-                    "styleUrl": "./navbar.component.scss"
-                }
-            ],
-            "stylesData": "",
-            "constructorObj": {
-                "name": "constructor",
-                "description": "",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "args": [],
-                "line": 8
-            },
-            "implements": [
-                "OnInit"
-            ],
-            "templateData": "<div class=\"topnav\">\n    <a class=\"active\" href=\"#home\">Home</a>\n    <a href=\"#news\">News</a>\n    <a href=\"#contact\">Contact</a>\n    <a href=\"#about\">About</a>\n  </div>"
         },
         {
             "name": "PageComponent",
@@ -1493,68 +1591,6 @@
                 }
             ],
             "stylesData": ""
-        },
-        {
-            "name": "SpinnerComponent",
-            "id": "component-SpinnerComponent-57a921be723f3b4bf5b76c0d75dace94d289e16a4efe9a4fe43554305fde3350832e7842c612203ecc0a49293cf1dde9224b766bf4f0f64a09373fc091418ef7",
-            "file": "src/design/components/atomic/spinner/spinner.component.ts",
-            "encapsulation": [],
-            "entryComponents": [],
-            "inputs": [],
-            "outputs": [],
-            "providers": [],
-            "selector": "app-spinner",
-            "styleUrls": [
-                "./spinner.component.scss"
-            ],
-            "styles": [],
-            "templateUrl": [
-                "./spinner.component.html"
-            ],
-            "viewProviders": [],
-            "inputsClass": [],
-            "outputsClass": [],
-            "propertiesClass": [],
-            "methodsClass": [
-                {
-                    "name": "ngOnInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 12,
-                    "deprecated": false,
-                    "deprecationMessage": ""
-                }
-            ],
-            "deprecated": false,
-            "deprecationMessage": "",
-            "hostBindings": [],
-            "hostListeners": [],
-            "description": "",
-            "rawdescription": "\n",
-            "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-spinner',\n  templateUrl: './spinner.component.html',\n  styleUrls: ['./spinner.component.scss']\n})\nexport class SpinnerComponent implements OnInit {\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
-            "assetsDirs": [],
-            "styleUrlsData": [
-                {
-                    "data": ".a-loading {\n    &-android {\n        animation: rotate 2s linear infinite;\n        transform-origin: center center;\n        >circle {\n            display: inline-block;\n            animation: dash 1500ms ease-in-out infinite;\n            stroke-linecap: round; // 端点是圆形\n            color: #da272c;\n        }\n      \n        @keyframes rotate {\n            100% {\n                transform: rotate(360deg);\n            }\n        }\n      \n        @keyframes dash {\n            0% {\n                stroke-dasharray: 1, 200;\n            }\n\n            50% {\n                stroke-dasharray: 100, 200;\n                stroke-dashoffset: -45;\n            }\n\n            100% {\n                stroke-dasharray: 100, 200;\n                stroke-dashoffset: -124;\n            }\n        }\n    }\n}\n\n.center {\n  text-align: center;\n  line-height: 400px;\n  height: 400px;\n  width: 100%;\n}",
-                    "styleUrl": "./spinner.component.scss"
-                }
-            ],
-            "stylesData": "",
-            "constructorObj": {
-                "name": "constructor",
-                "description": "",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "args": [],
-                "line": 8
-            },
-            "implements": [
-                "OnInit"
-            ],
-            "templateData": "<div class=\"center\">\n    <svg width=\"100\" height=\"100\" viewBox=\"0 0 50 50\" class=\"a-loading-android\">\n    <circle cx=\"25\" cy=\"25\" r=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"5\"></circle>\n</svg>\n    <div>"
         },
         {
             "name": "SwitchComponent",
@@ -1699,13 +1735,13 @@
     "modules": [
         {
             "name": "AppModule",
-            "id": "module-AppModule-697ed2acd3cdeceb36a4f8fd9de4f5c3891d9e138c050da1bac908b838fe0d4d4987b97376c53258f5c24180acbafcf153d476e8acc5af85616bd66b97016df1",
+            "id": "module-AppModule-ee3b18b12909a5d8b9e30b5a1f424e8dddad6d8ede18eb5d4b76e0fdc80faf780fded3c004f27a9942258c22f49bfc441e8023c3e36a6e58f4715f617f331913",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/presentation/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { DataModule } from 'src/data/data.module';\n\n@NgModule({\n  declarations: [\n    AppComponent\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    DataModule\n  ],\n  providers: [],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { DataModule } from 'src/data/data.module';\nimport { DxButtonModule } from 'devextreme-angular';\n\n@NgModule({\n  declarations: [\n    AppComponent\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    DataModule,\n    DxButtonModule\n  ],\n  providers: [],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -1785,14 +1821,14 @@
             ]
         },
         {
-            "name": "CardModule",
-            "id": "module-CardModule-87a0de3ad242699f3b96a4caffc8eca4866518e1624cac5fcfa2e6eb8f5e1ec995dcecda9bfa6bfe27f45a98d1f70e3e638e25d4e4519e4995357b211f72af1a",
+            "name": "CneGridFilterSortingModule",
+            "id": "module-CneGridFilterSortingModule-5ce06de9407ff1e6860fb20349da49ed4666b97022ff7141e0fe173ccadcbeb0cfba872b55a467d18960fd24a1a505d421ddde80517cb2fd835466c3059a6dfa",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
-            "file": "src/design/components/atomic/card/card.module.ts",
+            "file": "src/design/components/atomic/cne-grid-filter-sorting/cne-grid-filter-sorting.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { CardComponent } from './card.component';\n\n\n\n@NgModule({\n  declarations: [CardComponent],\n  imports: [\n    CommonModule\n  ],\n  exports: [CardComponent]\n})\nexport class CardModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { CneGridFilterSortingComponent } from './cne-grid-filter-sorting.component';\nimport { DxButtonModule, DxDataGridModule, DxTemplateModule } from 'devextreme-angular';\n\n\n\n@NgModule({\n  declarations: [\n    CneGridFilterSortingComponent\n  ],\n  imports: [\n    CommonModule,\n    DxTemplateModule,\n    DxDataGridModule,\n    DxButtonModule\n  ]\n})\nexport class CneGridFilterSortingModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -1802,7 +1838,7 @@
                     "type": "declarations",
                     "elements": [
                         {
-                            "name": "CardComponent"
+                            "name": "CneGridFilterSortingComponent"
                         }
                     ]
                 },
@@ -1812,11 +1848,7 @@
                 },
                 {
                     "type": "exports",
-                    "elements": [
-                        {
-                            "name": "CardComponent"
-                        }
-                    ]
+                    "elements": []
                 },
                 {
                     "type": "bootstrap",
@@ -1853,94 +1885,6 @@
                 {
                     "type": "exports",
                     "elements": []
-                },
-                {
-                    "type": "bootstrap",
-                    "elements": []
-                },
-                {
-                    "type": "classes",
-                    "elements": []
-                }
-            ]
-        },
-        {
-            "name": "NavbarModule",
-            "id": "module-NavbarModule-206cd17f701ed3c84805f3555bb3483c21e1964d8bc35e40c806e49fee83463436ff6a294a332a0be50190b1da895e4488f0e7733db645496c7916fea9e74ff4",
-            "description": "",
-            "deprecationMessage": "",
-            "deprecated": false,
-            "file": "src/design/components/atomic/navbar/navbar.module.ts",
-            "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { NavbarComponent } from './navbar.component';\n\n\n\n@NgModule({\n  declarations: [\n    NavbarComponent\n  ],\n  imports: [\n    CommonModule\n  ],\n  exports: [NavbarComponent]\n})\nexport class NavbarModule { }\n",
-            "children": [
-                {
-                    "type": "providers",
-                    "elements": []
-                },
-                {
-                    "type": "declarations",
-                    "elements": [
-                        {
-                            "name": "NavbarComponent"
-                        }
-                    ]
-                },
-                {
-                    "type": "imports",
-                    "elements": []
-                },
-                {
-                    "type": "exports",
-                    "elements": [
-                        {
-                            "name": "NavbarComponent"
-                        }
-                    ]
-                },
-                {
-                    "type": "bootstrap",
-                    "elements": []
-                },
-                {
-                    "type": "classes",
-                    "elements": []
-                }
-            ]
-        },
-        {
-            "name": "SpinnerModule",
-            "id": "module-SpinnerModule-66ebed1bf4ab5799bc9924786bf9480aee59c7de79c18d708f5ce372e6e9327106aff2723ff7b8c256ca8a2726f34699f600ba9d3a9b62b6522fc64c3fd44b2b",
-            "description": "",
-            "deprecationMessage": "",
-            "deprecated": false,
-            "file": "src/design/components/atomic/spinner/spinner.module.ts",
-            "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { SpinnerComponent } from './spinner.component';\n\n\n\n@NgModule({\n  declarations: [\n    SpinnerComponent\n  ],\n  imports: [\n    CommonModule\n  ],\n  exports: [SpinnerComponent]\n})\nexport class SpinnerModule { }\n",
-            "children": [
-                {
-                    "type": "providers",
-                    "elements": []
-                },
-                {
-                    "type": "declarations",
-                    "elements": [
-                        {
-                            "name": "SpinnerComponent"
-                        }
-                    ]
-                },
-                {
-                    "type": "imports",
-                    "elements": []
-                },
-                {
-                    "type": "exports",
-                    "elements": [
-                        {
-                            "name": "SpinnerComponent"
-                        }
-                    ]
                 },
                 {
                     "type": "bootstrap",
@@ -2026,6 +1970,16 @@
                 "defaultValue": "{\n  production: false,\n  sso: {\n    issuer :  'https://accounts.google.com',\n    strictDiscoveryDocumentValidation: false,\n    redirectUri : window.location.origin,\n    clientId : '537264125367-4lmd506jgivbtf94isuosi7u21d961vf.apps.googleusercontent.com',\n    scope: 'openid profile email'\n  }\n}"
             },
             {
+                "name": "getOrderDay",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/design/components/atomic/cne-grid-filter-sorting/cne-grid-filter-sorting.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "function (rowData: any): number {\n  return (new Date(rowData.OrderDate)).getDay();\n}"
+            },
+            {
                 "name": "getUserProfileUseCaseFactory",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -2099,16 +2053,6 @@
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/stories/Header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Meta<Header>",
-                "defaultValue": "{\n  title: 'Example/Header',\n  component: Header,\n  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/angular/writing-docs/autodocs\n  tags: ['autodocs'],\n  render: (args) => ({ props: args }),\n  decorators: [\n    moduleMetadata({\n      declarations: [Button],\n      imports: [CommonModule],\n    }),\n  ],\n  parameters: {\n    // More on how to position stories at: https://storybook.js.org/docs/angular/configure/story-layout\n    layout: 'fullscreen',\n  },\n}"
-            },
-            {
-                "name": "meta",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/stories/Button.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -2119,11 +2063,31 @@
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/stories/Header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<Header>",
+                "defaultValue": "{\n  title: 'Example/Header',\n  component: Header,\n  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/angular/writing-docs/autodocs\n  tags: ['autodocs'],\n  render: (args) => ({ props: args }),\n  decorators: [\n    moduleMetadata({\n      declarations: [Button],\n      imports: [CommonModule],\n    }),\n  ],\n  parameters: {\n    // More on how to position stories at: https://storybook.js.org/docs/angular/configure/story-layout\n    layout: 'fullscreen',\n  },\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/stories/Page.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Meta<Page>",
                 "defaultValue": "{\n  title: 'Example/Page',\n  component: Page,\n  parameters: {\n    // More on how to position stories at: https://storybook.js.org/docs/angular/configure/story-layout\n    layout: 'fullscreen',\n  },\n  decorators: [\n    moduleMetadata({\n      declarations: [Button, Header],\n      imports: [CommonModule],\n    }),\n  ],\n}"
+            },
+            {
+                "name": "orders",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/presentation/app/app.service.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Order[]",
+                "defaultValue": "[{\r\n  ID: 1,\r\n  OrderNumber: 35703,\r\n  OrderDate: '2014/04/10',\r\n  SaleAmount: 11800,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 4,\r\n  OrderNumber: 35711,\r\n  OrderDate: '2014/01/12',\r\n  SaleAmount: 16050,\r\n  Terms: '15 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 5,\r\n  OrderNumber: 35714,\r\n  OrderDate: '2014/01/22',\r\n  SaleAmount: 14750,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 7,\r\n  OrderNumber: 35983,\r\n  OrderDate: '2014/02/07',\r\n  SaleAmount: 3725,\r\n  Terms: '15 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Colorado',\r\n    StoreCity: 'Denver',\r\n  },\r\n}, {\r\n  ID: 9,\r\n  OrderNumber: 36987,\r\n  OrderDate: '2014/03/11',\r\n  SaleAmount: 14200,\r\n  Terms: '15 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 11,\r\n  OrderNumber: 38466,\r\n  OrderDate: '2014/03/01',\r\n  SaleAmount: 7800,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 14,\r\n  OrderNumber: 39420,\r\n  OrderDate: '2014/02/15',\r\n  SaleAmount: 20500,\r\n  Terms: '15 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 15,\r\n  OrderNumber: 39874,\r\n  OrderDate: '2014/02/04',\r\n  SaleAmount: 9050,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 18,\r\n  OrderNumber: 42847,\r\n  OrderDate: '2014/02/15',\r\n  SaleAmount: 20400,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 19,\r\n  OrderNumber: 43982,\r\n  OrderDate: '2014/05/29',\r\n  SaleAmount: 6050,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 29,\r\n  OrderNumber: 56272,\r\n  OrderDate: '2014/02/06',\r\n  SaleAmount: 15850,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 30,\r\n  OrderNumber: 57429,\r\n  OrderDate: '2014/05/16',\r\n  SaleAmount: 11050,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}, {\r\n  ID: 32,\r\n  OrderNumber: 58292,\r\n  OrderDate: '2014/05/13',\r\n  SaleAmount: 13500,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 36,\r\n  OrderNumber: 62427,\r\n  OrderDate: '2014/01/27',\r\n  SaleAmount: 23500,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 39,\r\n  OrderNumber: 65977,\r\n  OrderDate: '2014/02/05',\r\n  SaleAmount: 2550,\r\n  Terms: '15 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 40,\r\n  OrderNumber: 66947,\r\n  OrderDate: '2014/03/23',\r\n  SaleAmount: 3500,\r\n  Terms: '15 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 42,\r\n  OrderNumber: 68428,\r\n  OrderDate: '2014/04/10',\r\n  SaleAmount: 10500,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 43,\r\n  OrderNumber: 69477,\r\n  OrderDate: '2014/03/09',\r\n  SaleAmount: 14200,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Anaheim',\r\n  },\r\n}, {\r\n  ID: 46,\r\n  OrderNumber: 72947,\r\n  OrderDate: '2014/01/14',\r\n  SaleAmount: 13350,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 47,\r\n  OrderNumber: 73088,\r\n  OrderDate: '2014/03/25',\r\n  SaleAmount: 8600,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Reno',\r\n  },\r\n}, {\r\n  ID: 50,\r\n  OrderNumber: 76927,\r\n  OrderDate: '2014/04/27',\r\n  SaleAmount: 9800,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 51,\r\n  OrderNumber: 77297,\r\n  OrderDate: '2014/04/30',\r\n  SaleAmount: 10850,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}, {\r\n  ID: 56,\r\n  OrderNumber: 84744,\r\n  OrderDate: '2014/02/10',\r\n  SaleAmount: 4650,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 57,\r\n  OrderNumber: 85028,\r\n  OrderDate: '2014/05/17',\r\n  SaleAmount: 2575,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Reno',\r\n  },\r\n}, {\r\n  ID: 59,\r\n  OrderNumber: 87297,\r\n  OrderDate: '2014/04/21',\r\n  SaleAmount: 14200,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 60,\r\n  OrderNumber: 88027,\r\n  OrderDate: '2014/02/14',\r\n  SaleAmount: 13650,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 65,\r\n  OrderNumber: 94726,\r\n  OrderDate: '2014/05/22',\r\n  SaleAmount: 20500,\r\n  Terms: '15 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 66,\r\n  OrderNumber: 95266,\r\n  OrderDate: '2014/03/10',\r\n  SaleAmount: 9050,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 69,\r\n  OrderNumber: 98477,\r\n  OrderDate: '2014/01/01',\r\n  SaleAmount: 23500,\r\n  Terms: '15 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 70,\r\n  OrderNumber: 99247,\r\n  OrderDate: '2014/02/08',\r\n  SaleAmount: 2100,\r\n  Terms: '15 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 78,\r\n  OrderNumber: 174884,\r\n  OrderDate: '2014/04/10',\r\n  SaleAmount: 7200,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Colorado',\r\n    StoreCity: 'Denver',\r\n  },\r\n}, {\r\n  ID: 81,\r\n  OrderNumber: 188877,\r\n  OrderDate: '2014/02/11',\r\n  SaleAmount: 8750,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}, {\r\n  ID: 82,\r\n  OrderNumber: 191883,\r\n  OrderDate: '2014/02/05',\r\n  SaleAmount: 9900,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 83,\r\n  OrderNumber: 192474,\r\n  OrderDate: '2014/01/21',\r\n  SaleAmount: 12800,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Anaheim',\r\n  },\r\n}, {\r\n  ID: 84,\r\n  OrderNumber: 193847,\r\n  OrderDate: '2014/03/21',\r\n  SaleAmount: 14100,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Diego',\r\n  },\r\n}, {\r\n  ID: 85,\r\n  OrderNumber: 194877,\r\n  OrderDate: '2014/03/06',\r\n  SaleAmount: 4750,\r\n  Terms: '30 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 86,\r\n  OrderNumber: 195746,\r\n  OrderDate: '2014/05/26',\r\n  SaleAmount: 9050,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 87,\r\n  OrderNumber: 197474,\r\n  OrderDate: '2014/03/02',\r\n  SaleAmount: 6400,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Reno',\r\n  },\r\n}, {\r\n  ID: 88,\r\n  OrderNumber: 198746,\r\n  OrderDate: '2014/05/09',\r\n  SaleAmount: 15700,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Colorado',\r\n    StoreCity: 'Denver',\r\n  },\r\n}, {\r\n  ID: 91,\r\n  OrderNumber: 214222,\r\n  OrderDate: '2014/02/08',\r\n  SaleAmount: 11050,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}]"
             },
             {
                 "name": "preview",
@@ -2144,6 +2108,16 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\n  args: {\n    primary: true,\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/design/components/atomic/cne-grid-filter-sorting/cne-grid-filter-sorting.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
             },
             {
                 "name": "Primary",
@@ -2174,6 +2148,16 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\n  args: {\n    size: 'small',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/design/components/atomic/cne-grid-filter-sorting/cne-grid-filter-sorting.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<CneGridFilterSortingComponent>",
+                "defaultValue": "(args: CneGridFilterSortingComponent) => ({\n  props: args,\n  moduleMetadata: {\n      imports: [FormsModule]\n  }\n})"
             },
             {
                 "name": "Template",
@@ -2232,8 +2216,8 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<Header>",
-                "file": "src/stories/Header.stories.ts",
+                "rawtype": "StoryObj<Button>",
+                "file": "src/stories/Button.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -2243,8 +2227,8 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<Button>",
-                "file": "src/stories/Button.stories.ts",
+                "rawtype": "StoryObj<Header>",
+                "file": "src/stories/Header.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -2298,6 +2282,18 @@
                     "deprecationMessage": "",
                     "type": "object",
                     "defaultValue": "{\n  production: false,\n  sso: {\n    issuer :  'https://accounts.google.com',\n    strictDiscoveryDocumentValidation: false,\n    redirectUri : window.location.origin,\n    clientId : '537264125367-4lmd506jgivbtf94isuosi7u21d961vf.apps.googleusercontent.com',\n    scope: 'openid profile email'\n  }\n}"
+                }
+            ],
+            "src/design/components/atomic/cne-grid-filter-sorting/cne-grid-filter-sorting.component.ts": [
+                {
+                    "name": "getOrderDay",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/design/components/atomic/cne-grid-filter-sorting/cne-grid-filter-sorting.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "function (rowData: any): number {\n  return (new Date(rowData.OrderDate)).getDay();\n}"
                 }
             ],
             "src/data/data.module.ts": [
@@ -2478,6 +2474,18 @@
                     "defaultValue": "{\n  title: 'Example/Page',\n  component: Page,\n  parameters: {\n    // More on how to position stories at: https://storybook.js.org/docs/angular/configure/story-layout\n    layout: 'fullscreen',\n  },\n  decorators: [\n    moduleMetadata({\n      declarations: [Button, Header],\n      imports: [CommonModule],\n    }),\n  ],\n}"
                 }
             ],
+            "src/presentation/app/app.service.ts": [
+                {
+                    "name": "orders",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/presentation/app/app.service.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Order[]",
+                    "defaultValue": "[{\r\n  ID: 1,\r\n  OrderNumber: 35703,\r\n  OrderDate: '2014/04/10',\r\n  SaleAmount: 11800,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 4,\r\n  OrderNumber: 35711,\r\n  OrderDate: '2014/01/12',\r\n  SaleAmount: 16050,\r\n  Terms: '15 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 5,\r\n  OrderNumber: 35714,\r\n  OrderDate: '2014/01/22',\r\n  SaleAmount: 14750,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 7,\r\n  OrderNumber: 35983,\r\n  OrderDate: '2014/02/07',\r\n  SaleAmount: 3725,\r\n  Terms: '15 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Colorado',\r\n    StoreCity: 'Denver',\r\n  },\r\n}, {\r\n  ID: 9,\r\n  OrderNumber: 36987,\r\n  OrderDate: '2014/03/11',\r\n  SaleAmount: 14200,\r\n  Terms: '15 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 11,\r\n  OrderNumber: 38466,\r\n  OrderDate: '2014/03/01',\r\n  SaleAmount: 7800,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 14,\r\n  OrderNumber: 39420,\r\n  OrderDate: '2014/02/15',\r\n  SaleAmount: 20500,\r\n  Terms: '15 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 15,\r\n  OrderNumber: 39874,\r\n  OrderDate: '2014/02/04',\r\n  SaleAmount: 9050,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 18,\r\n  OrderNumber: 42847,\r\n  OrderDate: '2014/02/15',\r\n  SaleAmount: 20400,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 19,\r\n  OrderNumber: 43982,\r\n  OrderDate: '2014/05/29',\r\n  SaleAmount: 6050,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 29,\r\n  OrderNumber: 56272,\r\n  OrderDate: '2014/02/06',\r\n  SaleAmount: 15850,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 30,\r\n  OrderNumber: 57429,\r\n  OrderDate: '2014/05/16',\r\n  SaleAmount: 11050,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}, {\r\n  ID: 32,\r\n  OrderNumber: 58292,\r\n  OrderDate: '2014/05/13',\r\n  SaleAmount: 13500,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 36,\r\n  OrderNumber: 62427,\r\n  OrderDate: '2014/01/27',\r\n  SaleAmount: 23500,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 39,\r\n  OrderNumber: 65977,\r\n  OrderDate: '2014/02/05',\r\n  SaleAmount: 2550,\r\n  Terms: '15 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 40,\r\n  OrderNumber: 66947,\r\n  OrderDate: '2014/03/23',\r\n  SaleAmount: 3500,\r\n  Terms: '15 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 42,\r\n  OrderNumber: 68428,\r\n  OrderDate: '2014/04/10',\r\n  SaleAmount: 10500,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 43,\r\n  OrderNumber: 69477,\r\n  OrderDate: '2014/03/09',\r\n  SaleAmount: 14200,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Anaheim',\r\n  },\r\n}, {\r\n  ID: 46,\r\n  OrderNumber: 72947,\r\n  OrderDate: '2014/01/14',\r\n  SaleAmount: 13350,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 47,\r\n  OrderNumber: 73088,\r\n  OrderDate: '2014/03/25',\r\n  SaleAmount: 8600,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Reno',\r\n  },\r\n}, {\r\n  ID: 50,\r\n  OrderNumber: 76927,\r\n  OrderDate: '2014/04/27',\r\n  SaleAmount: 9800,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 51,\r\n  OrderNumber: 77297,\r\n  OrderDate: '2014/04/30',\r\n  SaleAmount: 10850,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}, {\r\n  ID: 56,\r\n  OrderNumber: 84744,\r\n  OrderDate: '2014/02/10',\r\n  SaleAmount: 4650,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 57,\r\n  OrderNumber: 85028,\r\n  OrderDate: '2014/05/17',\r\n  SaleAmount: 2575,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Reno',\r\n  },\r\n}, {\r\n  ID: 59,\r\n  OrderNumber: 87297,\r\n  OrderDate: '2014/04/21',\r\n  SaleAmount: 14200,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 60,\r\n  OrderNumber: 88027,\r\n  OrderDate: '2014/02/14',\r\n  SaleAmount: 13650,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 65,\r\n  OrderNumber: 94726,\r\n  OrderDate: '2014/05/22',\r\n  SaleAmount: 20500,\r\n  Terms: '15 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 66,\r\n  OrderNumber: 95266,\r\n  OrderDate: '2014/03/10',\r\n  SaleAmount: 9050,\r\n  Terms: '15 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 69,\r\n  OrderNumber: 98477,\r\n  OrderDate: '2014/01/01',\r\n  SaleAmount: 23500,\r\n  Terms: '15 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Wyoming',\r\n    StoreCity: 'Casper',\r\n  },\r\n}, {\r\n  ID: 70,\r\n  OrderNumber: 99247,\r\n  OrderDate: '2014/02/08',\r\n  SaleAmount: 2100,\r\n  Terms: '15 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Utah',\r\n    StoreCity: 'Salt Lake City',\r\n  },\r\n}, {\r\n  ID: 78,\r\n  OrderNumber: 174884,\r\n  OrderDate: '2014/04/10',\r\n  SaleAmount: 7200,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Colorado',\r\n    StoreCity: 'Denver',\r\n  },\r\n}, {\r\n  ID: 81,\r\n  OrderNumber: 188877,\r\n  OrderDate: '2014/02/11',\r\n  SaleAmount: 8750,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}, {\r\n  ID: 82,\r\n  OrderNumber: 191883,\r\n  OrderDate: '2014/02/05',\r\n  SaleAmount: 9900,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Los Angeles',\r\n  },\r\n}, {\r\n  ID: 83,\r\n  OrderNumber: 192474,\r\n  OrderDate: '2014/01/21',\r\n  SaleAmount: 12800,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'Anaheim',\r\n  },\r\n}, {\r\n  ID: 84,\r\n  OrderNumber: 193847,\r\n  OrderDate: '2014/03/21',\r\n  SaleAmount: 14100,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Diego',\r\n  },\r\n}, {\r\n  ID: 85,\r\n  OrderNumber: 194877,\r\n  OrderDate: '2014/03/06',\r\n  SaleAmount: 4750,\r\n  Terms: '30 Days',\r\n  Employee: 'Jim Packard',\r\n  CustomerInfo: {\r\n    StoreState: 'California',\r\n    StoreCity: 'San Jose',\r\n  },\r\n}, {\r\n  ID: 86,\r\n  OrderNumber: 195746,\r\n  OrderDate: '2014/05/26',\r\n  SaleAmount: 9050,\r\n  Terms: '30 Days',\r\n  Employee: 'Harv Mudd',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Las Vegas',\r\n  },\r\n}, {\r\n  ID: 87,\r\n  OrderNumber: 197474,\r\n  OrderDate: '2014/03/02',\r\n  SaleAmount: 6400,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Nevada',\r\n    StoreCity: 'Reno',\r\n  },\r\n}, {\r\n  ID: 88,\r\n  OrderNumber: 198746,\r\n  OrderDate: '2014/05/09',\r\n  SaleAmount: 15700,\r\n  Terms: '30 Days',\r\n  Employee: 'Todd Hoffman',\r\n  CustomerInfo: {\r\n    StoreState: 'Colorado',\r\n    StoreCity: 'Denver',\r\n  },\r\n}, {\r\n  ID: 91,\r\n  OrderNumber: 214222,\r\n  OrderDate: '2014/02/08',\r\n  SaleAmount: 11050,\r\n  Terms: '30 Days',\r\n  Employee: 'Clark Morgan',\r\n  CustomerInfo: {\r\n    StoreState: 'Arizona',\r\n    StoreCity: 'Phoenix',\r\n  },\r\n}]"
+                }
+            ],
             ".storybook/preview.ts": [
                 {
                     "name": "preview",
@@ -2488,6 +2496,28 @@
                     "deprecationMessage": "",
                     "type": "Preview",
                     "defaultValue": "{\n  parameters: {\n    actions: { argTypesRegex: \"^on[A-Z].*\" },\n    controls: {\n      matchers: {\n        color: /(background|color)$/i,\n        date: /Date$/,\n      },\n    },\n  },\n}"
+                }
+            ],
+            "src/design/components/atomic/cne-grid-filter-sorting/cne-grid-filter-sorting.stories.ts": [
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/design/components/atomic/cne-grid-filter-sorting/cne-grid-filter-sorting.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/design/components/atomic/cne-grid-filter-sorting/cne-grid-filter-sorting.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<CneGridFilterSortingComponent>",
+                    "defaultValue": "(args: CneGridFilterSortingComponent) => ({\n  props: args,\n  moduleMetadata: {\n      imports: [FormsModule]\n  }\n})"
                 }
             ],
             "src/design/components/atomic/switch/switch.stories.ts": [
@@ -2516,19 +2546,6 @@
         "groupedFunctions": {},
         "groupedEnumerations": {},
         "groupedTypeAliases": {
-            "src/stories/Header.stories.ts": [
-                {
-                    "name": "Story",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "StoryObj<Header>",
-                    "file": "src/stories/Header.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "kind": 177
-                }
-            ],
             "src/stories/Button.stories.ts": [
                 {
                     "name": "Story",
@@ -2536,6 +2553,19 @@
                     "subtype": "typealias",
                     "rawtype": "StoryObj<Button>",
                     "file": "src/stories/Button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 177
+                }
+            ],
+            "src/stories/Header.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<Header>",
+                    "file": "src/stories/Header.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
@@ -2719,30 +2749,42 @@
                 "status": "low"
             },
             {
-                "filePath": "src/design/components/atomic/card/card.component.ts",
+                "filePath": "src/design/components/atomic/cne-grid-filter-sorting/cne-grid-filter-sorting.component.ts",
                 "type": "component",
                 "linktype": "component",
-                "name": "CardComponent",
+                "name": "CneGridFilterSortingComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/9",
                 "status": "low"
             },
             {
-                "filePath": "src/design/components/atomic/navbar/navbar.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "NavbarComponent",
+                "filePath": "src/design/components/atomic/cne-grid-filter-sorting/cne-grid-filter-sorting.component.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "getOrderDay",
                 "coveragePercent": 0,
-                "coverageCount": "0/3",
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
-                "filePath": "src/design/components/atomic/spinner/spinner.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "SpinnerComponent",
+                "filePath": "src/design/components/atomic/cne-grid-filter-sorting/cne-grid-filter-sorting.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Primary",
                 "coveragePercent": 0,
-                "coverageCount": "0/3",
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/design/components/atomic/cne-grid-filter-sorting/cne-grid-filter-sorting.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
@@ -2846,6 +2888,34 @@
                 "name": "AppComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/presentation/app/app.service.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "Service",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "src/presentation/app/app.service.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Order",
+                "coveragePercent": 0,
+                "coverageCount": "0/8",
+                "status": "low"
+            },
+            {
+                "filePath": "src/presentation/app/app.service.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "orders",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
